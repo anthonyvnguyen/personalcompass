@@ -6,10 +6,13 @@ import { TabParamList } from '../types';
 import MapScreen from '../screens/MapScreen';
 import CompassScreen from '../screens/CompassScreen';
 import SettingsScreen from '../screens/SettingsScreen';
+import { useColorScheme } from '~/lib/useColorScheme';
 
 const Tab = createBottomTabNavigator<TabParamList>();
 
 function TabNavigator() {
+  const { isDarkColorScheme } = useColorScheme();
+
   return (
     <Tab.Navigator
       screenOptions={({ route }) => ({
@@ -29,7 +32,11 @@ function TabNavigator() {
           return <Ionicons name={iconName} size={size} color={color} />;
         },
         tabBarActiveTintColor: '#007AFF',
-        tabBarInactiveTintColor: 'gray',
+        tabBarInactiveTintColor: isDarkColorScheme ? '#8E8E93' : '#8E8E93',
+        tabBarStyle: {
+          backgroundColor: isDarkColorScheme ? '#1C1C1E' : '#F2F2F7',
+          borderTopColor: isDarkColorScheme ? '#38383A' : '#C6C6C8',
+        },
         headerShown: false,
       })}
     >

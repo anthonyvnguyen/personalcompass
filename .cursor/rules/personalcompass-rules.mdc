@@ -19,6 +19,8 @@ Code Style and Structure
 - Prefer iteration and modularization over code duplication.
 - Use descriptive variable names with auxiliary verbs (e.g., isLoading, hasError).
 - Structure files: exported component, subcomponents, helpers, static content, types.
+- Prefer React Native Reusables components (e.g., Button, Card, Separator) for consistent, minimal design.
+- Follow React Native Reusables conventions for Tailwind class-based styling.
 - Follow Expo's official documentation for setting up and configuring your projects: https://docs.expo.dev/
 
 Naming Conventions
@@ -38,10 +40,13 @@ Syntax and Formatting
 - Use Prettier for consistent code formatting.
 
 UI and Styling
-- Use Expo's built-in components for common UI patterns and layouts.
+- Use React Native Reusables' built-in components as the primary UI library.
+- Apply styling using Tailwind CSS utility classes via the className prop on React Native Reusables components.
+- Leverage React Native Reusables' native dark mode support and ensure all components adapt to dark themes by default.
+- Prioritize minimal, clean, and spacious designs aligned with React Native Reusables' UI principles.
+- Always use React Native Reusables components for buttons, headers, lists, cards, and common layouts.
+- Avoid mixing React Native Reusables with other component libraries unless absolutely necessary.
 - Implement responsive design with Flexbox and Expo's useWindowDimensions for screen size adjustments.
-- Use styled-components or Tailwind CSS for component styling.
-- Implement dark mode support using Expo's useColorScheme.
 - Ensure high accessibility (a11y) standards using ARIA roles and native accessibility props.
 - Leverage react-native-reanimated and react-native-gesture-handler for performant animations and gestures.
 
@@ -126,8 +131,16 @@ Key Conventions
 7. Ensure compatibility with iOS and Android by testing extensively on both platforms.
 
 API Documentation
+- Use React Native Reusables documentation as the primary reference for component usage: https://www.reactnativereusables.com/getting-started/introduction/
 - Use Expo's official documentation for setting up and configuring your projects: https://docs.expo.dev/
 - Use react-native-maps documentation for map configuration: https://github.com/react-native-maps/react-native-maps
 - Use expo-sensors documentation for compass integration: https://docs.expo.dev/versions/latest/sdk/sensors/
+
+React Native Reusables Conventions
+- Always use React Native Reusables components for buttons, headers, lists, cards, and common layouts.
+- Avoid mixing React Native Reusables with other component libraries unless absolutely necessary.
+- Apply all styling using Tailwind CSS utility classes through React Native Reusables' className prop.
+- Use React Native Reusables' default theming system with dark mode support enabled.
+- Reference the official documentation for all React Native Reusables component configurations: https://www.reactnativereusables.com/getting-started/introduction/
 
 Refer to Expo's documentation for detailed information on Views, Blueprints, and Extensions for best practices.

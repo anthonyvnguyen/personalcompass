@@ -9,6 +9,7 @@ A React Native mobile app that allows users to select multiple locations on an i
 ## Technology Stack
 
 -   **React Native with Expo** - Mobile app framework with fast prototyping
+-   **React Native Reusables** - Primary UI component library with Tailwind CSS integration
 -   **react-native-maps** - Display interactive map and location pins
 -   **expo-location** - Access GPS location of the user
 -   **expo-sensors (Magnetometer)** - Access device compass heading
@@ -16,6 +17,7 @@ A React Native mobile app that allows users to select multiple locations on an i
 -   **react-navigation** - Multi-screen navigation (map, compass, etc.)
 -   **react-native-svg** - Drawing compass and multiple indicators
 -   **react-native-reanimated** - Smooth compass and UI animations
+-   **Tailwind CSS** - Utility-first CSS framework for styling (via React Native Reusables)
 
 ## Project Phases
 
@@ -44,9 +46,17 @@ A React Native mobile app that allows users to select multiple locations on an i
     -   [x] Set up basic navigation structure
 
 -   [x] **Basic App Shell**
+
     -   [x] Create main App component with navigation container
     -   [x] Set up basic screen structure (Map, Compass, Settings)
     -   [x] Implement basic navigation between screens
+
+-   [x] **UI Component Library Setup**
+    -   [x] Install and configure React Native Reusables
+    -   [x] Set up Tailwind CSS integration with React Native Reusables
+    -   [x] Configure dark mode support with React Native Reusables theming
+    -   [x] Refactor existing screens to use React Native Reusables components
+    -   [x] Update navigation components to use React Native Reusables styling
 
 ### Phase 2: Map Functionality
 
@@ -198,6 +208,9 @@ A React Native mobile app that allows users to select multiple locations on an i
 -   [x] Working Expo project with TypeScript
 -   [x] Basic navigation structure
 -   [x] Development environment setup
+-   [x] React Native Reusables integration with Tailwind CSS
+-   [x] Refactored screens using React Native Reusables components
+-   [x] Dark mode support configured
 
 ### Phase 2 Deliverables:
 
