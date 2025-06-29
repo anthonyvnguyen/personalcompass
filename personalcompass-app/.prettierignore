@@ -1,0 +1,30 @@
+# Dependencies
+node_modules/
+
+# Expo
+.expo/
+.expo-shared/
+
+# Build outputs
+dist/
+web-build/
+ios/
+android/
+
+# Logs
+*.log
+
+# Environment variables
+.env*
+
+# Generated files
+package-lock.json
+yarn.lock
+*.tsbuildinfo
+
+# IDE
+.vscode/
+.idea/
+
+# OS
+.DS_Store 
