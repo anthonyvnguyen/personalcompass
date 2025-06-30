@@ -14,6 +14,7 @@ import { sharedStyles, getContainerStyle } from '../styles/shared';
 import { LoadingState, ErrorState } from '../components/common';
 import { CompassDisplay, LocationIndicatorsList } from '../components/compass';
 import { useCompass } from '../hooks/useCompass';
+import { colors, spacing, typography } from '../styles/tokens';
 
 function CompassScreen() {
   const { isDarkColorScheme } = useColorScheme();
@@ -79,8 +80,10 @@ function CompassScreen() {
     >
       {/* Header */}
       <View style={sharedStyles.header}>
-        <Text style={sharedStyles.title}>Compass</Text>
-        <Text style={sharedStyles.subtitle}>
+        <Text size='4xl' weight='bold' style={sharedStyles.title}>
+          Compass
+        </Text>
+        <Text size='lg' variant='secondary' style={sharedStyles.subtitle}>
           Dynamic compass with location indicators
         </Text>
       </View>
@@ -92,20 +95,28 @@ function CompassScreen() {
         <View style={sharedStyles.content}>
           {!isCompassActive ? (
             // Compass not started - show start button
-            <Card style={sharedStyles.cardSpacing}>
-              <CardContent style={sharedStyles.cardContentCentered}>
+            <Card spacing='md'>
+              <CardContent centered>
                 <View style={styles.startContainer}>
-                  <Text style={styles.startTitle}>Start Compass</Text>
-                  <Text style={styles.startDescription}>
+                  <Text size='3xl' weight='bold' style={styles.startTitle}>
+                    Start Compass
+                  </Text>
+                  <Text
+                    size='lg'
+                    variant='secondary'
+                    style={styles.startDescription}
+                  >
                     Tap the button below to activate the compass and see
                     directions to your saved locations.
                   </Text>
                   <Button
                     onPress={handleStartCompass}
-                    style={[styles.startButton, sharedStyles.primaryButton]}
+                    style={styles.startButton}
                   >
                     <Text
-                      style={[sharedStyles.buttonText, { color: '#ffffff' }]}
+                      size='lg'
+                      weight='semibold'
+                      style={{ color: colors.neutral[0] }}
                     >
                       Start Compass
                     </Text>
@@ -116,8 +127,8 @@ function CompassScreen() {
           ) : (
             // Compass is active - show compass display
             <>
-              <Card style={sharedStyles.cardSpacing}>
-                <CardContent style={sharedStyles.cardContentCentered}>
+              <Card spacing='md'>
+                <CardContent centered>
                   <CompassDisplay
                     heading={heading}
                     indicators={indicators}
@@ -128,14 +139,14 @@ function CompassScreen() {
               </Card>
 
               {/* Location Indicators List */}
-              <Card style={sharedStyles.section}>
+              <Card spacing='md'>
                 <CardContent>
                   <LocationIndicatorsList indicators={indicators} />
                 </CardContent>
               </Card>
 
               {/* Control Buttons */}
-              <Card style={sharedStyles.section}>
+              <Card spacing='md'>
                 <CardContent>
                   <View style={styles.controlsContainer}>
                     <Button
@@ -143,7 +154,7 @@ function CompassScreen() {
                       variant='outline'
                       style={styles.controlButton}
                     >
-                      <Text style={sharedStyles.outlineButtonText}>
+                      <Text size='lg' weight='semibold'>
                         Refresh
                       </Text>
                     </Button>
@@ -153,7 +164,9 @@ function CompassScreen() {
                       style={styles.controlButton}
                     >
                       <Text
-                        style={[sharedStyles.buttonText, { color: '#ffffff' }]}
+                        size='lg'
+                        weight='semibold'
+                        style={{ color: colors.neutral[0] }}
                       >
                         Stop Compass
                       </Text>
@@ -165,24 +178,24 @@ function CompassScreen() {
           )}
 
           {/* Help Information */}
-          <Card style={sharedStyles.section}>
+          <Card spacing='md'>
             <CardHeader>
               <CardTitle>How to Use</CardTitle>
             </CardHeader>
             <CardContent>
               <View style={styles.helpContainer}>
-                <Text style={styles.helpText}>
+                <Text size='md' variant='secondary' style={styles.helpText}>
                   • The compass shows your current heading and directions to
                   saved locations
                 </Text>
-                <Text style={styles.helpText}>
+                <Text size='md' variant='secondary' style={styles.helpText}>
                   • Each saved location appears as a colored indicator on the
                   compass ring
                 </Text>
-                <Text style={styles.helpText}>
+                <Text size='md' variant='secondary' style={styles.helpText}>
                   • Location indicators show distance and cardinal direction
                 </Text>
-                <Text style={styles.helpText}>
+                <Text size='md' variant='secondary' style={styles.helpText}>
                   • Add more locations from the Map screen to see them here
                 </Text>
               </View>
@@ -197,19 +210,15 @@ function CompassScreen() {
 const styles = StyleSheet.create({
   startContainer: {
     alignItems: 'center',
-    paddingVertical: 40,
+    paddingVertical: spacing[10],
   },
   startTitle: {
-    fontSize: 24,
-    fontWeight: '700',
-    marginBottom: 12,
-    letterSpacing: -0.4,
+    marginBottom: spacing[3],
+    letterSpacing: typography.letterSpacing.tight,
   },
   startDescription: {
-    fontSize: 16,
     textAlign: 'center',
-    marginBottom: 32,
-    opacity: 0.7,
+    marginBottom: spacing[8],
     lineHeight: 22,
   },
   startButton: {
@@ -217,7 +226,7 @@ const styles = StyleSheet.create({
   },
   controlsContainer: {
     flexDirection: 'row',
-    gap: 16,
+    gap: spacing[4],
     justifyContent: 'center',
   },
   controlButton: {
@@ -225,12 +234,10 @@ const styles = StyleSheet.create({
     maxWidth: 140,
   },
   helpContainer: {
-    gap: 12,
+    gap: spacing[3],
   },
   helpText: {
-    fontSize: 15,
     lineHeight: 20,
-    opacity: 0.8,
   },
 });
 

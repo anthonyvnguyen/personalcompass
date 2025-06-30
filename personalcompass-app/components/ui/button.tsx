@@ -1,6 +1,12 @@
 import * as React from 'react';
 import { Pressable, StyleSheet } from 'react-native';
 import { useColorScheme } from '~/lib/useColorScheme';
+import {
+  colors,
+  borderRadius,
+  componentSizes,
+  opacity,
+} from '~/src/styles/tokens';
 
 type ButtonVariant =
   | 'default'
@@ -91,55 +97,47 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-    borderRadius: 12,
+    borderRadius: borderRadius['2xl'],
   },
   buttonDefault: {
-    height: 52,
-    paddingHorizontal: 24,
-    paddingVertical: 16,
+    ...componentSizes.button.md,
   },
   buttonSm: {
-    height: 40,
-    paddingHorizontal: 16,
-    paddingVertical: 10,
+    ...componentSizes.button.sm,
   },
   buttonLg: {
-    height: 60,
-    paddingHorizontal: 32,
-    paddingVertical: 20,
+    ...componentSizes.button.lg,
   },
   buttonIcon: {
-    height: 44,
-    width: 44,
-    paddingHorizontal: 0,
+    ...componentSizes.button.icon,
   },
   buttonPrimary: {
-    backgroundColor: '#a855f7', // Light purple
+    backgroundColor: colors.primary[500],
   },
   buttonOutlineLight: {
     backgroundColor: 'transparent',
     borderWidth: 1,
-    borderColor: '#e5e5e5',
+    borderColor: colors.neutral[200],
   },
   buttonOutlineDark: {
     backgroundColor: 'transparent',
     borderWidth: 1,
-    borderColor: '#333333',
+    borderColor: colors.neutral[700],
   },
   buttonSecondaryLight: {
-    backgroundColor: '#f8f9fa',
+    backgroundColor: colors.neutral[50],
   },
   buttonSecondaryDark: {
-    backgroundColor: '#1a1a1a',
+    backgroundColor: colors.neutral[900],
   },
   buttonGhost: {
     backgroundColor: 'transparent',
   },
   buttonDestructive: {
-    backgroundColor: '#ef4444',
+    backgroundColor: colors.error[500],
   },
   buttonDisabled: {
-    opacity: 0.4,
+    opacity: opacity.disabled,
   },
 });
 

@@ -4,6 +4,7 @@ import { Card, CardContent } from '../../../components/ui/card';
 import { Text } from '../../../components/ui/text';
 import { useColorScheme } from '../../../lib/useColorScheme';
 import { sharedStyles, getStatusCardStyle } from '../../styles/shared';
+import { colors } from '../../styles/tokens';
 
 interface StatusItem {
   text: string;
@@ -27,11 +28,15 @@ export const StatusCard: React.FC<StatusCardProps> = ({ items }) => {
                   width: 6,
                   height: 6,
                   borderRadius: 3,
-                  backgroundColor: isDarkColorScheme ? '#a855f7' : '#7c3aed',
+                  backgroundColor: isDarkColorScheme
+                    ? colors.primary[500]
+                    : colors.primary[700],
                 }}
               />
             </View>
-            <Text style={sharedStyles.statusText}>{item.text}</Text>
+            <Text variant='secondary' style={sharedStyles.statusText}>
+              {item.text}
+            </Text>
           </View>
         ))}
       </CardContent>

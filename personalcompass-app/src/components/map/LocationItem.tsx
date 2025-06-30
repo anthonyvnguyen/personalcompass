@@ -5,6 +5,13 @@ import { Text } from '../../../components/ui/text';
 import { Ionicons } from '@expo/vector-icons';
 import { SavedLocation } from '../../types/location';
 import { useColorScheme } from '../../../lib/useColorScheme';
+import {
+  colors,
+  spacing,
+  typography,
+  borderRadius,
+  opacity,
+} from '../../styles/tokens';
 
 interface LocationItemProps {
   location: SavedLocation;
@@ -33,20 +40,22 @@ export const LocationItem: React.FC<LocationItemProps> = ({
         pressed && styles.pressablePressed,
       ]}
     >
-      <Card style={styles.card}>
-        <CardContent style={styles.cardContent}>
+      <Card>
+        <CardContent size='md'>
           <View style={styles.mainContent}>
             <View style={styles.textContent}>
-              <Text style={styles.locationName} numberOfLines={1}>
+              <Text
+                size='xl'
+                weight='semibold'
+                style={styles.locationName}
+                numberOfLines={1}
+              >
                 {location.name}
               </Text>
               <Text
-                style={[
-                  styles.locationCoords,
-                  isDarkColorScheme
-                    ? styles.locationCoordsDark
-                    : styles.locationCoordsLight,
-                ]}
+                variant='secondary'
+                size='md'
+                style={styles.locationCoords}
                 numberOfLines={1}
               >
                 {location.coordinate.latitude.toFixed(4)},{' '}
@@ -54,12 +63,9 @@ export const LocationItem: React.FC<LocationItemProps> = ({
               </Text>
               {location.description && (
                 <Text
-                  style={[
-                    styles.locationDescription,
-                    isDarkColorScheme
-                      ? styles.locationDescriptionDark
-                      : styles.locationDescriptionLight,
-                  ]}
+                  variant='tertiary'
+                  size='base'
+                  style={styles.locationDescription}
                   numberOfLines={2}
                 >
                   {location.description}
@@ -78,7 +84,11 @@ export const LocationItem: React.FC<LocationItemProps> = ({
                   ]}
                 >
                   {isSelected && (
-                    <Ionicons name='checkmark' size={16} color='#ffffff' />
+                    <Ionicons
+                      name='checkmark'
+                      size={16}
+                      color={colors.neutral[0]}
+                    />
                   )}
                 </View>
               </View>
@@ -95,15 +105,7 @@ const styles = StyleSheet.create({
     // No margins here - spacing controlled by parent container
   },
   pressablePressed: {
-    opacity: 0.7,
-  },
-  card: {
-    marginBottom: 0, // Override Card's default marginBottom: 20
-  },
-  cardContent: {
-    padding: 16,
-    paddingTop: 16, // Ensure consistent padding
-    paddingBottom: 16, // Ensure consistent padding
+    opacity: opacity.subtle,
   },
   mainContent: {
     flexDirection: 'row',
@@ -113,59 +115,43 @@ const styles = StyleSheet.create({
   },
   textContent: {
     flex: 1,
-    backgroundColor: 'rgba(0, 0, 255, 0.1)', // Light blue
+    // Removed test background color
   },
   checkboxContainer: {
-    marginLeft: 16,
+    marginLeft: spacing[4],
   },
   checkbox: {
-    width: 24,
-    height: 24,
-    borderRadius: 6,
+    width: spacing[6],
+    height: spacing[6],
+    borderRadius: borderRadius.md,
     borderWidth: 2,
     alignItems: 'center',
     justifyContent: 'center',
   },
   checkboxLight: {
-    borderColor: '#d1d5db',
+    borderColor: colors.neutral[300],
   },
   checkboxDark: {
-    borderColor: '#4b5563',
+    borderColor: colors.neutral[600],
   },
   checkboxSelected: {
-    backgroundColor: '#a855f7',
-    borderColor: '#a855f7',
+    backgroundColor: colors.primary[500],
+    borderColor: colors.primary[500],
   },
   locationName: {
-    fontSize: 18,
-    fontWeight: '600',
-    marginBottom: 4,
-    letterSpacing: -0.2,
-    lineHeight: 22,
+    marginBottom: spacing[1],
+    letterSpacing: typography.letterSpacing.wide,
+    lineHeight: typography.lineHeight.relaxed,
   },
   locationCoords: {
-    fontSize: 15,
     fontFamily: 'monospace',
-    marginBottom: 2,
-    letterSpacing: 0.5,
-    lineHeight: 18,
-  },
-  locationCoordsLight: {
-    color: '#666666',
-  },
-  locationCoordsDark: {
-    color: '#a1a1a1',
+    marginBottom: spacing[1],
+    letterSpacing: typography.letterSpacing.wider,
+    lineHeight: typography.lineHeight.snug,
   },
   locationDescription: {
-    fontSize: 14,
-    marginTop: 4,
-    lineHeight: 16,
-    marginBottom: 0, // Explicitly set to 0
-  },
-  locationDescriptionLight: {
-    color: '#888888',
-  },
-  locationDescriptionDark: {
-    color: '#888888',
+    marginTop: spacing[1],
+    lineHeight: typography.lineHeight.tight,
+    marginBottom: 0, // Explicit 0 to prevent any margin
   },
 });

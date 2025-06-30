@@ -1,19 +1,46 @@
 import React from 'react';
 import { Text, TextProps, View, ViewProps, StyleSheet } from 'react-native';
 import { useColorScheme } from '~/lib/useColorScheme';
+import {
+  colors,
+  spacing,
+  typography,
+  borderRadius,
+  componentSizes,
+} from '~/src/styles/tokens';
 
 interface CardProps extends ViewProps {
   ref?: React.RefObject<any>;
+  spacing?: 'none' | 'sm' | 'md' | 'lg';
 }
 
-function Card({ className, style, ...props }: CardProps) {
+function Card({
+  className,
+  style,
+  spacing: cardSpacing = 'none',
+  ...props
+}: CardProps) {
   const { isDarkColorScheme } = useColorScheme();
+
+  const getSpacingStyle = () => {
+    switch (cardSpacing) {
+      case 'sm':
+        return { marginBottom: spacing[3] };
+      case 'md':
+        return { marginBottom: spacing[4] };
+      case 'lg':
+        return { marginBottom: spacing[5] };
+      default:
+        return {};
+    }
+  };
 
   return (
     <View
       style={[
         styles.card,
         isDarkColorScheme ? styles.cardDark : styles.cardLight,
+        getSpacingStyle(),
         style,
       ]}
       {...props}
@@ -71,10 +98,40 @@ function CardDescription({ className, style, ...props }: CardDescriptionProps) {
 
 interface CardContentProps extends ViewProps {
   ref?: React.RefObject<any>;
+  size?: 'sm' | 'md' | 'lg';
+  centered?: boolean;
 }
 
-function CardContent({ className, style, ...props }: CardContentProps) {
-  return <View style={[styles.cardContent, style]} {...props} />;
+function CardContent({
+  className,
+  style,
+  size = 'lg',
+  centered = false,
+  ...props
+}: CardContentProps) {
+  const getPaddingStyle = () => {
+    switch (size) {
+      case 'sm':
+        return { padding: componentSizes.card.padding.sm };
+      case 'md':
+        return { padding: componentSizes.card.padding.md };
+      case 'lg':
+      default:
+        return { padding: componentSizes.card.padding.lg };
+    }
+  };
+
+  return (
+    <View
+      style={[
+        styles.cardContent,
+        getPaddingStyle(),
+        centered && styles.cardContentCentered,
+        style,
+      ]}
+      {...props}
+    />
+  );
 }
 
 interface CardFooterProps extends ViewProps {
@@ -87,53 +144,55 @@ function CardFooter({ className, style, ...props }: CardFooterProps) {
 
 const styles = StyleSheet.create({
   card: {
-    borderRadius: 16,
+    borderRadius: borderRadius['3xl'],
     borderWidth: 1,
-    marginBottom: 20,
+    // No default marginBottom - spacing controlled by parent or spacing prop
   },
   cardLight: {
-    backgroundColor: '#ffffff',
-    borderColor: '#f0f0f0',
+    backgroundColor: colors.surface.light,
+    borderColor: colors.border.light,
   },
   cardDark: {
-    backgroundColor: '#0f0f0f',
-    borderColor: '#1a1a1a',
+    backgroundColor: colors.surface.dark,
+    borderColor: colors.border.dark,
   },
   cardHeader: {
-    padding: 24,
-    paddingBottom: 16,
+    padding: componentSizes.card.padding.lg,
+    paddingBottom: spacing[4],
   },
   cardTitle: {
-    fontSize: 20,
-    fontWeight: '600',
-    lineHeight: 24,
-    marginBottom: 4,
-    letterSpacing: -0.3,
+    fontSize: typography.fontSize['2xl'],
+    fontWeight: typography.fontWeight.semibold,
+    lineHeight: typography.lineHeight.loose,
+    marginBottom: spacing[1],
+    letterSpacing: typography.letterSpacing.normal,
   },
   cardTitleLight: {
-    color: '#000000',
+    color: colors.text.primary.light,
   },
   cardTitleDark: {
-    color: '#ffffff',
+    color: colors.text.primary.dark,
   },
   cardDescription: {
-    fontSize: 15,
-    lineHeight: 20,
+    fontSize: typography.fontSize.md,
+    lineHeight: typography.lineHeight.normal,
   },
   cardDescriptionLight: {
-    color: '#666666',
+    color: colors.text.secondary.light,
   },
   cardDescriptionDark: {
-    color: '#a1a1a1',
+    color: colors.text.secondary.dark,
   },
   cardContent: {
-    padding: 24,
-    paddingTop: 0,
+    // Base content styles - padding controlled by size prop
+  },
+  cardContentCentered: {
+    alignItems: 'center',
   },
   cardFooter: {
     flexDirection: 'row',
     alignItems: 'center',
-    padding: 24,
+    padding: componentSizes.card.padding.lg,
     paddingTop: 0,
   },
 });

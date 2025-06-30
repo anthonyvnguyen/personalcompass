@@ -1,153 +1,244 @@
 import { StyleSheet } from 'react-native';
+import {
+  colors,
+  spacing,
+  typography,
+  borderRadius,
+  componentSizes,
+  opacity,
+} from './tokens';
+
+// ============================================================================
+// SHARED STYLES - DESIGN TOKEN BASED
+// ============================================================================
 
 export const sharedStyles = StyleSheet.create({
-  // Container styles
+  // ============================================================================
+  // LAYOUT & CONTAINERS
+  // ============================================================================
+
   container: {
     flex: 1,
   },
   containerLight: {
-    backgroundColor: '#f5f5f5',
+    backgroundColor: colors.background.light,
   },
   containerDark: {
-    backgroundColor: '#0a0a0a',
+    backgroundColor: colors.background.dark,
   },
 
   // Header styles
   header: {
-    paddingHorizontal: 24,
-    paddingTop: 32,
-    paddingBottom: 24,
-  },
-  title: {
-    fontSize: 32,
-    fontWeight: '700',
-    marginBottom: 8,
-    letterSpacing: -0.5,
-  },
-  subtitle: {
-    fontSize: 16,
-    opacity: 0.6,
-    fontWeight: '400',
+    paddingHorizontal: spacing[6],
+    paddingTop: spacing[8],
+    paddingBottom: spacing[6],
   },
 
   // ScrollView and content
   scrollView: {
     flex: 1,
-    paddingHorizontal: 24,
+    paddingHorizontal: spacing[6],
   },
   content: {
-    paddingBottom: 40,
+    paddingBottom: spacing[10],
   },
 
   // Section styles
   section: {
-    marginTop: 32,
-  },
-  sectionTitle: {
-    fontSize: 20,
-    fontWeight: '600',
-    marginBottom: 16,
-    letterSpacing: -0.3,
+    marginTop: spacing[8],
   },
 
-  // Button styles
-  buttonText: {
-    fontWeight: '600',
-    fontSize: 16,
+  // ============================================================================
+  // TYPOGRAPHY
+  // ============================================================================
+
+  // Headers
+  title: {
+    fontSize: typography.fontSize['4xl'],
+    fontWeight: typography.fontWeight.bold,
+    marginBottom: spacing[2],
+    letterSpacing: typography.letterSpacing.tight,
   },
+  subtitle: {
+    fontSize: typography.fontSize.lg,
+    opacity: opacity.muted,
+    fontWeight: typography.fontWeight.normal,
+  },
+  sectionTitle: {
+    fontSize: typography.fontSize['2xl'],
+    fontWeight: typography.fontWeight.semibold,
+    marginBottom: spacing[4],
+    letterSpacing: typography.letterSpacing.normal,
+  },
+
+  // Text variants
+  bodyText: {
+    fontSize: typography.fontSize.lg,
+    lineHeight: typography.lineHeight.normal,
+  },
+  smallText: {
+    fontSize: typography.fontSize.base,
+    lineHeight: typography.lineHeight.snug,
+  },
+  coordinateText: {
+    fontFamily: 'monospace',
+    fontSize: typography.fontSize.md,
+    opacity: opacity.visible,
+    lineHeight: typography.lineHeight.relaxed,
+  },
+  emptyStateText: {
+    textAlign: 'center',
+    lineHeight: typography.lineHeight.loose,
+    opacity: opacity.muted,
+    fontSize: typography.fontSize.lg,
+  },
+  debugText: {
+    fontSize: typography.fontSize.sm,
+    fontFamily: 'monospace',
+    opacity: opacity.muted,
+    lineHeight: typography.lineHeight.snug,
+  },
+
+  // ============================================================================
+  // BUTTONS
+  // ============================================================================
+
+  // Button text styles
+  buttonText: {
+    fontWeight: typography.fontWeight.semibold,
+    fontSize: typography.fontSize.lg,
+  },
+
+  // Button variants
   primaryButton: {
-    backgroundColor: '#a855f7', // Light purple
-    borderRadius: 12,
-    minHeight: 52,
+    backgroundColor: colors.primary[500],
+    borderRadius: borderRadius['2xl'],
+    ...componentSizes.button.md,
   },
   outlineButton: {
     backgroundColor: 'transparent',
     borderWidth: 1,
-    borderColor: '#333333',
-    borderRadius: 12,
-    minHeight: 52,
+    borderRadius: borderRadius['2xl'],
+    ...componentSizes.button.md,
   },
-  outlineButtonText: {
-    fontWeight: '600',
-    fontSize: 16,
+  outlineButtonLight: {
+    borderColor: colors.neutral[200],
+  },
+  outlineButtonDark: {
+    borderColor: colors.neutral[700],
   },
   destructiveButton: {
-    backgroundColor: '#ef4444',
-    borderRadius: 12,
-    minHeight: 52,
+    backgroundColor: colors.error[500],
+    borderRadius: borderRadius['2xl'],
+    ...componentSizes.button.md,
   },
   destructiveButtonText: {
-    color: '#ffffff',
-    fontWeight: '600',
-    fontSize: 16,
+    color: colors.neutral[0],
+    fontWeight: typography.fontWeight.semibold,
+    fontSize: typography.fontSize.lg,
+  },
+  disabledButton: {
+    opacity: opacity.disabled,
   },
 
-  // Card styles
-  cardSpacing: {
-    marginBottom: 20,
+  // ============================================================================
+  // CARDS & CONTAINERS
+  // ============================================================================
+
+  // Card content styles
+  cardContent: {
+    padding: componentSizes.card.padding.lg,
   },
   cardContentCentered: {
-    padding: 24,
+    padding: componentSizes.card.padding.lg,
     alignItems: 'center',
+  },
+  cardContentCompact: {
+    padding: componentSizes.card.padding.sm,
   },
 
   // Status card styles
   statusRow: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: 12,
+    marginBottom: spacing[3],
   },
   statusIcon: {
-    fontSize: 16,
-    marginRight: 12,
-    width: 24,
+    fontSize: typography.fontSize.lg,
+    marginRight: spacing[3],
+    width: spacing[6],
     textAlign: 'center',
   },
   statusText: {
-    fontSize: 15,
-    opacity: 0.7,
+    fontSize: typography.fontSize.md,
+    opacity: opacity.subtle,
     flex: 1,
-    lineHeight: 20,
+    lineHeight: typography.lineHeight.normal,
   },
 
-  // List styles
+  // Themed containers
+  coordinateContainer: {
+    padding: spacing[4],
+    borderRadius: borderRadius['2xl'],
+    marginBottom: spacing[5],
+  },
+  coordinateContainerLight: {
+    backgroundColor: colors.neutral[50],
+  },
+  coordinateContainerDark: {
+    backgroundColor: colors.neutral[900],
+  },
+
+  debugContainer: {
+    marginTop: spacing[4],
+    padding: spacing[4],
+    borderRadius: borderRadius.xl,
+  },
+  debugContainerLight: {
+    backgroundColor: colors.neutral[50],
+  },
+  debugContainerDark: {
+    backgroundColor: colors.neutral[900],
+  },
+
+  errorContainer: {
+    marginTop: spacing[4],
+    padding: spacing[4],
+    borderRadius: borderRadius.xl,
+  },
+  errorContainerLight: {
+    backgroundColor: colors.error[50] || '#fef2f2',
+  },
+  errorContainerDark: {
+    backgroundColor: colors.error[900] || '#7f1d1d',
+  },
+
+  statusCard: {
+    padding: spacing[5],
+  },
+  statusCardLight: {
+    backgroundColor: colors.neutral[50],
+  },
+  statusCardDark: {
+    backgroundColor: colors.neutral[800],
+  },
+
+  // ============================================================================
+  // LISTS & LAYOUT
+  // ============================================================================
+
   listContainer: {
-    gap: 16,
-    marginBottom: 8,
+    gap: spacing[4],
+    marginBottom: spacing[2],
   },
   listItem: {
     padding: 0,
   },
 
-  // Text styles
-  coordinateText: {
-    fontFamily: 'monospace',
-    fontSize: 15,
-    opacity: 0.8,
-    lineHeight: 22,
-  },
-  emptyStateText: {
-    textAlign: 'center',
-    lineHeight: 24,
-    opacity: 0.6,
-    fontSize: 16,
-  },
-  debugText: {
-    fontSize: 13,
-    fontFamily: 'monospace',
-    opacity: 0.6,
-    lineHeight: 18,
-  },
+  // ============================================================================
+  // FLEXBOX UTILITIES
+  // ============================================================================
 
-  // Spacing utilities
-  marginBottom16: {
-    marginBottom: 16,
-  },
-  paddingHorizontal16: {
-    paddingHorizontal: 16,
-  },
-
-  // Flexbox utilities
   row: {
     flexDirection: 'row',
   },
@@ -171,52 +262,22 @@ export const sharedStyles = StyleSheet.create({
     flex: 1,
   },
 
-  // Color-specific containers
-  coordinateContainer: {
-    padding: 16,
-    borderRadius: 12,
-    marginBottom: 20,
+  // ============================================================================
+  // SPACING UTILITIES
+  // ============================================================================
+
+  marginBottom16: {
+    marginBottom: spacing[4],
   },
-  coordinateContainerLight: {
-    backgroundColor: '#f8f9fa',
-  },
-  coordinateContainerDark: {
-    backgroundColor: '#1a1a1a',
-  },
-  debugContainer: {
-    marginTop: 16,
-    padding: 16,
-    borderRadius: 10,
-  },
-  debugContainerLight: {
-    backgroundColor: '#f8f9fa',
-  },
-  debugContainerDark: {
-    backgroundColor: '#1a1a1a',
-  },
-  errorContainer: {
-    marginTop: 16,
-    padding: 16,
-    borderRadius: 10,
-  },
-  errorContainerLight: {
-    backgroundColor: '#fef2f2',
-  },
-  errorContainerDark: {
-    backgroundColor: '#7f1d1d',
-  },
-  statusCard: {
-    padding: 20,
-  },
-  statusCardLight: {
-    backgroundColor: '#fafafa',
-  },
-  statusCardDark: {
-    backgroundColor: '#111111',
+  paddingHorizontal16: {
+    paddingHorizontal: spacing[4],
   },
 });
 
-// Helper functions for themed styles
+// ============================================================================
+// HELPER FUNCTIONS FOR THEMED STYLES
+// ============================================================================
+
 export const getThemedStyles = (
   isDark: boolean,
   lightStyle: any,
@@ -251,3 +312,23 @@ export const getErrorContainerStyle = (isDark: boolean) => [
   sharedStyles.errorContainer,
   isDark ? sharedStyles.errorContainerDark : sharedStyles.errorContainerLight,
 ];
+
+export const getOutlineButtonStyle = (isDark: boolean) => [
+  sharedStyles.outlineButton,
+  isDark ? sharedStyles.outlineButtonDark : sharedStyles.outlineButtonLight,
+];
+
+// ============================================================================
+// TEXT COLOR HELPERS
+// ============================================================================
+
+export const getTextColor = (
+  variant: 'primary' | 'secondary' | 'tertiary',
+  isDark: boolean
+) => {
+  return isDark ? colors.text[variant].dark : colors.text[variant].light;
+};
+
+export const getPrimaryColor = () => colors.primary[500];
+export const getErrorColor = () => colors.error[500];
+export const getSuccessColor = () => colors.success[500];

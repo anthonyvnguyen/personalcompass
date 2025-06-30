@@ -4,6 +4,7 @@ import { Text } from '../../../components/ui/text';
 import { CompassRing } from './CompassRing';
 import { LocationIndicator } from '../../types/compass';
 import { useColorScheme } from '../../../lib/useColorScheme';
+import { colors } from '../../styles/tokens';
 
 interface CompassDisplayProps {
   heading: number;
@@ -50,13 +51,13 @@ export function CompassDisplay({
   const getAccuracyColor = (accuracy: 'low' | 'medium' | 'high'): string => {
     switch (accuracy) {
       case 'high':
-        return '#10B981';
+        return colors.success[500];
       case 'medium':
-        return '#F59E0B';
+        return colors.warning[500];
       case 'low':
-        return '#EF4444';
+        return colors.error[500];
       default:
-        return '#6B7280';
+        return colors.neutral[500];
     }
   };
 
@@ -77,7 +78,7 @@ export function CompassDisplay({
     <View style={styles.container}>
       {/* Compass Ring */}
       <View style={styles.compassContainer}>
-        <CompassRing size={size} heading={heading} indicators={indicators} />
+        <CompassRing size={size} heading={heading} locations={indicators} />
 
         {/* Cardinal Direction Overlay - shows current facing direction */}
         <View style={styles.headingOverlay}>

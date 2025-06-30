@@ -6,6 +6,7 @@ import { Button } from '../../../components/ui/button';
 import { SavedLocation } from '../../types/location';
 import { sharedStyles } from '../../styles/shared';
 import { LocationItem } from './LocationItem';
+import { colors, spacing, typography, opacity } from '../../styles/tokens';
 
 interface SavedLocationsListProps {
   savedLocations: SavedLocation[];
@@ -53,7 +54,7 @@ export const SavedLocationsList: React.FC<SavedLocationsListProps> = ({
   return (
     <View style={sharedStyles.section}>
       <View style={styles.headerRow}>
-        <Text style={sharedStyles.sectionTitle}>
+        <Text size='2xl' weight='semibold' style={styles.sectionTitle}>
           Saved Locations{' '}
           {savedLocations.length > 0 && `(${savedLocations.length})`}
         </Text>
@@ -64,7 +65,7 @@ export const SavedLocationsList: React.FC<SavedLocationsListProps> = ({
             size='sm'
             style={styles.editButton}
           >
-            <Text style={[sharedStyles.buttonText, styles.editButtonText]}>
+            <Text size='base' weight='semibold' style={styles.editButtonText}>
               {isEditMode ? 'Done' : 'Edit'}
             </Text>
           </Button>
@@ -73,16 +74,11 @@ export const SavedLocationsList: React.FC<SavedLocationsListProps> = ({
 
       {savedLocations.length === 0 ? (
         <Card>
-          <CardContent style={sharedStyles.cardContentCentered}>
-            <Text style={sharedStyles.emptyStateText}>
+          <CardContent centered>
+            <Text variant='secondary' style={sharedStyles.emptyStateText}>
               No locations saved yet
             </Text>
-            <Text
-              style={[
-                sharedStyles.emptyStateText,
-                { marginTop: 8, fontSize: 14 },
-              ]}
-            >
+            <Text variant='secondary' size='base' style={styles.emptySubtext}>
               Add custom coordinates to get started
             </Text>
           </CardContent>
@@ -111,7 +107,7 @@ export const SavedLocationsList: React.FC<SavedLocationsListProps> = ({
                 variant='outline'
                 style={styles.actionButton}
               >
-                <Text style={sharedStyles.outlineButtonText}>
+                <Text size='lg' weight='semibold'>
                   {selectedLocationIds.length === savedLocations.length
                     ? 'Deselect All'
                     : 'Select All'}
@@ -123,13 +119,16 @@ export const SavedLocationsList: React.FC<SavedLocationsListProps> = ({
                 variant='destructive'
                 style={[
                   styles.actionButton,
-                  selectedLocationIds.length === 0 && styles.disabledButton,
+                  selectedLocationIds.length === 0 &&
+                    sharedStyles.disabledButton,
                 ]}
                 disabled={selectedLocationIds.length === 0}
               >
                 <Text
+                  size='lg'
+                  weight='semibold'
                   style={[
-                    sharedStyles.destructiveButtonText,
+                    styles.destructiveText,
                     selectedLocationIds.length === 0 &&
                       styles.disabledButtonText,
                   ]}
@@ -151,30 +150,37 @@ const styles = StyleSheet.create({
     justifyContent: 'space-between',
     alignItems: 'center',
   },
+  sectionTitle: {
+    marginBottom: spacing[4],
+    letterSpacing: typography.letterSpacing.normal,
+  },
   editButton: {
-    paddingHorizontal: 16,
-    paddingVertical: 8,
+    paddingHorizontal: spacing[4],
+    paddingVertical: spacing[2],
     minHeight: 36,
   },
   editButtonText: {
-    fontSize: 14,
-    color: '#a855f7',
+    color: colors.primary[500],
+  },
+  emptySubtext: {
+    marginTop: spacing[2],
+    textAlign: 'center',
   },
   editActions: {
-    padding: 20,
+    padding: spacing[5],
   },
   editActionsRow: {
     flexDirection: 'row',
-    gap: 12,
-    padding: 8,
+    gap: spacing[3],
+    padding: spacing[2],
   },
   actionButton: {
     flex: 1,
   },
-  disabledButton: {
-    opacity: 0.4,
+  destructiveText: {
+    color: colors.neutral[0],
   },
   disabledButtonText: {
-    opacity: 0.4,
+    opacity: opacity.disabled,
   },
 });

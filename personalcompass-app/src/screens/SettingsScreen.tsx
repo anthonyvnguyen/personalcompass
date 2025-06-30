@@ -13,6 +13,7 @@ import { ThemeToggle } from '../../components/ThemeToggle';
 import { useColorScheme } from '../../lib/useColorScheme';
 import { sharedStyles, getContainerStyle } from '../styles/shared';
 import { StatusCard } from '../components/common';
+import { colors, spacing, typography } from '../styles/tokens';
 
 function SettingsScreen() {
   const { isDarkColorScheme } = useColorScheme();
@@ -24,8 +25,10 @@ function SettingsScreen() {
     >
       {/* Header */}
       <View style={sharedStyles.header}>
-        <Text style={sharedStyles.title}>Settings</Text>
-        <Text style={sharedStyles.subtitle}>
+        <Text size='4xl' weight='bold' style={sharedStyles.title}>
+          Settings
+        </Text>
+        <Text size='lg' variant='secondary' style={sharedStyles.subtitle}>
           App preferences and configuration
         </Text>
       </View>
@@ -36,7 +39,7 @@ function SettingsScreen() {
       >
         <View style={sharedStyles.content}>
           {/* Appearance Section */}
-          <Card style={sharedStyles.cardSpacing}>
+          <Card spacing='md'>
             <CardHeader>
               <CardTitle>Appearance</CardTitle>
               <CardDescription>
@@ -49,52 +52,52 @@ function SettingsScreen() {
           </Card>
 
           {/* Compass Section */}
-          <Card style={sharedStyles.cardSpacing}>
+          <Card spacing='md'>
             <CardHeader>
               <CardTitle>Compass</CardTitle>
               <CardDescription>
                 Calibration, units, and accuracy settings
               </CardDescription>
             </CardHeader>
-            <CardContent>
-              <View style={sharedStyles.cardContentCentered}>
-                <Text style={styles.comingSoonText}>Coming soon</Text>
-              </View>
+            <CardContent centered>
+              <Text variant='secondary' style={styles.comingSoonText}>
+                Coming soon
+              </Text>
             </CardContent>
           </Card>
 
           {/* Location Section */}
-          <Card style={sharedStyles.cardSpacing}>
+          <Card spacing='md'>
             <CardHeader>
               <CardTitle>Location</CardTitle>
               <CardDescription>
                 Permissions and location services
               </CardDescription>
             </CardHeader>
-            <CardContent>
-              <View style={sharedStyles.cardContentCentered}>
-                <Text style={styles.comingSoonText}>Coming soon</Text>
-              </View>
+            <CardContent centered>
+              <Text variant='secondary' style={styles.comingSoonText}>
+                Coming soon
+              </Text>
             </CardContent>
           </Card>
 
           {/* Data Section */}
-          <Card style={sharedStyles.cardSpacing}>
+          <Card spacing='md'>
             <CardHeader>
               <CardTitle>Data</CardTitle>
               <CardDescription>
                 Manage saved locations and app data
               </CardDescription>
             </CardHeader>
-            <CardContent>
-              <View style={sharedStyles.cardContentCentered}>
-                <Text style={styles.comingSoonText}>Coming soon</Text>
-              </View>
+            <CardContent centered>
+              <Text variant='secondary' style={styles.comingSoonText}>
+                Coming soon
+              </Text>
             </CardContent>
           </Card>
 
           {/* About Section */}
-          <Card style={sharedStyles.cardSpacing}>
+          <Card spacing='md'>
             <CardHeader>
               <CardTitle>About</CardTitle>
               <CardDescription>App version, help, and support</CardDescription>
@@ -102,16 +105,28 @@ function SettingsScreen() {
             <CardContent>
               <View style={sharedStyles.listContainer}>
                 <View style={sharedStyles.rowSpaceBetween}>
-                  <Text style={styles.infoLabel}>Version:</Text>
-                  <Text style={styles.infoValue}>1.0.0</Text>
+                  <Text size='lg' weight='semibold' style={styles.infoLabel}>
+                    Version:
+                  </Text>
+                  <Text size='lg' variant='secondary' style={styles.infoValue}>
+                    1.0.0
+                  </Text>
                 </View>
                 <View style={sharedStyles.rowSpaceBetween}>
-                  <Text style={styles.infoLabel}>Build:</Text>
-                  <Text style={styles.infoValue}>MVP</Text>
+                  <Text size='lg' weight='semibold' style={styles.infoLabel}>
+                    Build:
+                  </Text>
+                  <Text size='lg' variant='secondary' style={styles.infoValue}>
+                    MVP
+                  </Text>
                 </View>
                 <View style={sharedStyles.rowSpaceBetween}>
-                  <Text style={styles.infoLabel}>Platform:</Text>
-                  <Text style={styles.infoValue}>Expo Go</Text>
+                  <Text size='lg' weight='semibold' style={styles.infoLabel}>
+                    Platform:
+                  </Text>
+                  <Text size='lg' variant='secondary' style={styles.infoValue}>
+                    Expo Go
+                  </Text>
                 </View>
               </View>
             </CardContent>
@@ -136,17 +151,13 @@ function SettingsScreen() {
 
 const styles = StyleSheet.create({
   comingSoonText: {
-    fontSize: 15,
-    opacity: 0.6,
     fontStyle: 'italic',
+    opacity: 0.6,
   },
   infoLabel: {
-    fontSize: 16,
-    fontWeight: '600',
+    // Styles handled by Text component props
   },
   infoValue: {
-    fontSize: 16,
-    opacity: 0.7,
     fontFamily: 'monospace',
   },
 });

@@ -7,6 +7,7 @@ import MapScreen from '../screens/MapScreen';
 import CompassScreen from '../screens/CompassScreen';
 import SettingsScreen from '../screens/SettingsScreen';
 import { useColorScheme } from '~/lib/useColorScheme';
+import { colors } from '../styles/tokens';
 
 const Tab = createBottomTabNavigator<TabParamList>();
 
@@ -31,11 +32,17 @@ function TabNavigator() {
 
           return <Ionicons name={iconName} size={size} color={color} />;
         },
-        tabBarActiveTintColor: '#a855f7', // Light purple
-        tabBarInactiveTintColor: isDarkColorScheme ? '#6b7280' : '#9ca3af',
+        tabBarActiveTintColor: colors.primary[500],
+        tabBarInactiveTintColor: isDarkColorScheme
+          ? colors.neutral[500]
+          : colors.neutral[400],
         tabBarStyle: {
-          backgroundColor: isDarkColorScheme ? '#0a0a0a' : '#ffffff',
-          borderTopColor: isDarkColorScheme ? '#1a1a1a' : '#f0f0f0',
+          backgroundColor: isDarkColorScheme
+            ? colors.background.dark
+            : colors.surface.light,
+          borderTopColor: isDarkColorScheme
+            ? colors.border.dark
+            : colors.border.light,
           borderTopWidth: 1,
         },
         headerShown: false,

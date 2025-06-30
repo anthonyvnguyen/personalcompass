@@ -11,6 +11,7 @@ import { Text } from '../../../components/ui/text';
 import { Button } from '../../../components/ui/button';
 import { useColorScheme } from '../../../lib/useColorScheme';
 import { sharedStyles, getContainerStyle } from '../../styles/shared';
+import { colors } from '../../styles/tokens';
 
 interface ErrorStateProps {
   title: string;
@@ -53,7 +54,9 @@ export const ErrorState: React.FC<ErrorStateProps> = ({
               onPress={onRetry}
               style={[styles.fullWidthButton, sharedStyles.primaryButton]}
             >
-              <Text style={[sharedStyles.buttonText, { color: '#ffffff' }]}>
+              <Text
+                style={[sharedStyles.buttonText, { color: colors.neutral[0] }]}
+              >
                 {buttonText}
               </Text>
             </Button>
@@ -70,7 +73,7 @@ const styles = StyleSheet.create({
     maxWidth: 400,
   },
   errorTitle: {
-    color: '#ef4444',
+    color: colors.error[500],
     textAlign: 'center',
   },
   fullWidthButton: {
