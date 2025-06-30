@@ -85,6 +85,7 @@ export function CompassRing({ size, heading, indicators }: CompassRingProps) {
             fontSize='16'
             fontWeight='bold'
             fill={i === 0 ? northColor : textColor}
+            transform={`rotate(${heading} ${labelX} ${labelY})`}
           >
             {label}
           </SvgText>
@@ -138,7 +139,7 @@ export function CompassRing({ size, heading, indicators }: CompassRingProps) {
 
   return (
     <View style={[styles.container, { width: size, height: size }]}>
-      <Svg width={size} height={size}>
+      <Svg width={size} height={size} viewBox={`0 0 ${size} ${size}`}>
         {/* Rotating compass ring - rotates to show current direction at top */}
         <G transform={`rotate(${-heading} ${center} ${center})`}>
           {/* Outer ring */}
@@ -194,5 +195,6 @@ const styles = StyleSheet.create({
   container: {
     alignItems: 'center',
     justifyContent: 'center',
+    alignSelf: 'center',
   },
 });

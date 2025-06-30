@@ -46,9 +46,9 @@ export class CompassService {
         return false;
       }
 
-      // Set update intervals (every 50ms for responsive updates)
-      Magnetometer.setUpdateInterval(50);
-      Accelerometer.setUpdateInterval(50);
+      // Set update intervals (every 33ms for 30fps smooth updates - reduces sensor noise)
+      Magnetometer.setUpdateInterval(33);
+      Accelerometer.setUpdateInterval(33);
 
       // Subscribe to magnetometer updates
       this.magnetometerSubscription = Magnetometer.addListener(data => {
@@ -150,7 +150,7 @@ export class CompassService {
   }
 
   /**
-   * Apply simple smoothing to reduce compass jitter
+   * Apply advanced smoothing to reduce compass jitter
    */
   private smoothHeading(newHeading: number): number {
     if (this.currentHeading === 0) {
@@ -165,9 +165,25 @@ export class CompassService {
       diff += 360;
     }
 
-    // Apply simple low-pass filter (adjust alpha for more/less smoothing)
-    // Reduced smoothing for better responsiveness like native compass
-    const alpha = 0.3;
+    // Add larger deadband to prevent jittering for very small changes
+    const deadband = 1.5; // degrees - larger deadband for more stability
+    if (Math.abs(diff) < deadband) {
+      return this.currentHeading; // No change for tiny movements
+    }
+
+    // Use much more aggressive smoothing to eliminate jitter
+    const absDiff = Math.abs(diff);
+    let alpha;
+    if (absDiff < 3) {
+      alpha = 0.08; // Very heavy smoothing for small changes
+    } else if (absDiff < 10) {
+      alpha = 0.15; // Heavy smoothing for moderate changes
+    } else if (absDiff < 30) {
+      alpha = 0.3; // Medium smoothing for larger changes
+    } else {
+      alpha = 0.6; // Faster response only for very large changes
+    }
+
     const smoothedDiff = diff * alpha;
     let smoothedHeading = this.currentHeading + smoothedDiff;
 

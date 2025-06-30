@@ -79,9 +79,8 @@ export function CompassDisplay({
       <View style={styles.compassContainer}>
         <CompassRing size={size} heading={heading} indicators={indicators} />
 
-        {/* Heading Display Overlay */}
+        {/* Cardinal Direction Overlay - shows current facing direction */}
         <View style={styles.headingOverlay}>
-          <Text style={styles.headingNumber}>{formatHeading(heading)}</Text>
           <Text style={styles.cardinalDirection}>
             {getCardinalDirection(heading)}
           </Text>
@@ -133,27 +132,25 @@ export function CompassDisplay({
 const styles = StyleSheet.create({
   container: {
     alignItems: 'center',
+    justifyContent: 'center',
+    width: '100%',
   },
   compassContainer: {
     position: 'relative',
     alignItems: 'center',
     justifyContent: 'center',
+    width: '100%',
   },
   headingOverlay: {
     position: 'absolute',
     alignItems: 'center',
     justifyContent: 'center',
-  },
-  headingNumber: {
-    fontSize: 32,
-    fontWeight: 'bold',
-    fontFamily: 'monospace',
+    top: '60%', // Position below center to avoid red arrow
   },
   cardinalDirection: {
-    fontSize: 16,
-    fontWeight: '600',
-    marginTop: 4,
-    opacity: 0.8,
+    fontSize: 24,
+    fontWeight: 'bold',
+    opacity: 0.9,
   },
   infoContainer: {
     marginTop: 24,

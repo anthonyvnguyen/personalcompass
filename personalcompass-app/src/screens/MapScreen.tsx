@@ -107,7 +107,7 @@ const MapScreen: React.FC<MapScreenProps> = ({ navigation }) => {
   const addCustomLocation = () => {
     Alert.prompt(
       'Add Custom Location',
-      'Enter coordinates (latitude,longitude):',
+      'Enter coordinates (latitude,longitude):\n\nNote: Use negative values for:\n• West longitude (Americas: -180 to 0)\n• South latitude (Southern Hemisphere: -90 to 0)\n\nExamples:\n• New York: 40.68, -74.04\n• London: 51.51, -0.13\n• Sydney: -33.87, 151.21',
       [
         { text: 'Cancel', style: 'cancel' },
         {
@@ -120,7 +120,7 @@ const MapScreen: React.FC<MapScreenProps> = ({ navigation }) => {
               if (coords.length !== 2) {
                 Alert.alert(
                   'Error',
-                  'Please enter coordinates in format: latitude,longitude'
+                  'Please enter coordinates in format: latitude,longitude\n\nExample: 40.68, -74.04'
                 );
                 return;
               }
@@ -131,7 +131,7 @@ const MapScreen: React.FC<MapScreenProps> = ({ navigation }) => {
               if (isNaN(latitude) || isNaN(longitude)) {
                 Alert.alert(
                   'Error',
-                  'Please enter valid numbers for coordinates'
+                  'Please enter valid numbers for coordinates\n\nExample: 40.68, -74.04'
                 );
                 return;
               }
@@ -142,27 +142,52 @@ const MapScreen: React.FC<MapScreenProps> = ({ navigation }) => {
                 longitude < -180 ||
                 longitude > 180
               ) {
-                Alert.alert('Error', 'Coordinates out of valid range');
+                Alert.alert(
+                  'Error',
+                  'Coordinates out of valid range:\n• Latitude: -90 to 90\n• Longitude: -180 to 180'
+                );
                 return;
               }
 
+              // Additional helpful validation for common mistakes
               const coordinate: Coordinate = { latitude, longitude };
-              const locationName = `Custom ${savedLocations.length + 1}`;
 
-              const result = await saveLocation(
-                locationName,
-                coordinate,
-                `Custom location added on ${new Date().toLocaleDateString()}`
-              );
-
-              if (result) {
-                Alert.alert(
-                  'Success',
-                  `Added "${locationName}" to your compass locations.`
+              // Calculate distance from current location to provide context
+              if (currentLocation) {
+                const LocationService =
+                  require('../services/locationService').default;
+                const locationService = LocationService.getInstance();
+                const distance = locationService.calculateDistance(
+                  currentLocation,
+                  coordinate
                 );
-              } else {
-                Alert.alert('Error', 'Failed to save custom location');
+                const distanceKm = Math.round(distance / 1000);
+
+                // Warn if distance seems unusually large (>15,000 km)
+                if (distanceKm > 15000) {
+                  Alert.alert(
+                    'Distance Check',
+                    `This location is ${distanceKm.toLocaleString()} km away. This seems very far.\n\nDid you mean to use negative longitude for Western locations?\n(e.g., -74.04 instead of 74.04 for Eastern US)`,
+                    [
+                      { text: 'Cancel', style: 'cancel' },
+                      {
+                        text: 'Add Anyway',
+                        onPress: () =>
+                          saveCustomLocation(
+                            coordinate,
+                            `Custom ${savedLocations.length + 1}`
+                          ),
+                      },
+                    ]
+                  );
+                  return;
+                }
               }
+
+              await saveCustomLocation(
+                coordinate,
+                `Custom ${savedLocations.length + 1}`
+              );
             } catch (err) {
               Alert.alert('Error', 'Failed to parse coordinates');
             }
@@ -170,8 +195,32 @@ const MapScreen: React.FC<MapScreenProps> = ({ navigation }) => {
         },
       ],
       'plain-text',
-      '37.7749,-122.4194' // San Francisco as example
+      ''
     );
+  };
+
+  const saveCustomLocation = async (
+    coordinate: Coordinate,
+    locationName: string
+  ) => {
+    try {
+      const result = await saveLocation(
+        locationName,
+        coordinate,
+        `Custom location added on ${new Date().toLocaleDateString()}`
+      );
+
+      if (result) {
+        Alert.alert(
+          'Success',
+          `Added "${locationName}" to your compass locations.`
+        );
+      } else {
+        Alert.alert('Error', 'Failed to save custom location');
+      }
+    } catch (err) {
+      Alert.alert('Error', 'Failed to save location');
+    }
   };
 
   const handleLocationPress = (location: SavedLocation) => {
