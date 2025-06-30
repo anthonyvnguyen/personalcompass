@@ -31,11 +31,12 @@ function TabNavigator() {
 
           return <Ionicons name={iconName} size={size} color={color} />;
         },
-        tabBarActiveTintColor: '#007AFF',
-        tabBarInactiveTintColor: isDarkColorScheme ? '#8E8E93' : '#8E8E93',
+        tabBarActiveTintColor: '#a855f7', // Light purple
+        tabBarInactiveTintColor: isDarkColorScheme ? '#6b7280' : '#9ca3af',
         tabBarStyle: {
-          backgroundColor: isDarkColorScheme ? '#1C1C1E' : '#F2F2F7',
-          borderTopColor: isDarkColorScheme ? '#38383A' : '#C6C6C8',
+          backgroundColor: isDarkColorScheme ? '#0a0a0a' : '#ffffff',
+          borderTopColor: isDarkColorScheme ? '#1a1a1a' : '#f0f0f0',
+          borderTopWidth: 1,
         },
         headerShown: false,
       })}

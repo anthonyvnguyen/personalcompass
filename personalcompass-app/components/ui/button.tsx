@@ -67,11 +67,7 @@ function Button({
         baseStyle.push(styles.buttonDestructive);
         break;
       default:
-        baseStyle.push(
-          isDarkColorScheme
-            ? styles.buttonPrimaryDark
-            : styles.buttonPrimaryLight
-        );
+        baseStyle.push(styles.buttonPrimary);
     }
 
     if (disabled) {
@@ -95,49 +91,46 @@ const styles = StyleSheet.create({
     flexDirection: 'row',
     alignItems: 'center',
     justifyContent: 'center',
-    borderRadius: 8,
+    borderRadius: 12,
   },
   buttonDefault: {
-    height: 48,
-    paddingHorizontal: 20,
-    paddingVertical: 12,
-  },
-  buttonSm: {
-    height: 36,
-    paddingHorizontal: 12,
-    paddingVertical: 8,
-  },
-  buttonLg: {
-    height: 56,
-    paddingHorizontal: 32,
+    height: 52,
+    paddingHorizontal: 24,
     paddingVertical: 16,
   },
-  buttonIcon: {
+  buttonSm: {
     height: 40,
-    width: 40,
+    paddingHorizontal: 16,
+    paddingVertical: 10,
+  },
+  buttonLg: {
+    height: 60,
+    paddingHorizontal: 32,
+    paddingVertical: 20,
+  },
+  buttonIcon: {
+    height: 44,
+    width: 44,
     paddingHorizontal: 0,
   },
-  buttonPrimaryLight: {
-    backgroundColor: '#3b82f6',
-  },
-  buttonPrimaryDark: {
-    backgroundColor: '#2563eb',
+  buttonPrimary: {
+    backgroundColor: '#a855f7', // Light purple
   },
   buttonOutlineLight: {
     backgroundColor: 'transparent',
     borderWidth: 1,
-    borderColor: '#d1d5db',
+    borderColor: '#e5e5e5',
   },
   buttonOutlineDark: {
     backgroundColor: 'transparent',
     borderWidth: 1,
-    borderColor: '#374151',
+    borderColor: '#333333',
   },
   buttonSecondaryLight: {
-    backgroundColor: '#f3f4f6',
+    backgroundColor: '#f8f9fa',
   },
   buttonSecondaryDark: {
-    backgroundColor: '#374151',
+    backgroundColor: '#1a1a1a',
   },
   buttonGhost: {
     backgroundColor: 'transparent',
@@ -146,7 +139,7 @@ const styles = StyleSheet.create({
     backgroundColor: '#ef4444',
   },
   buttonDisabled: {
-    opacity: 0.5,
+    opacity: 0.4,
   },
 });
 

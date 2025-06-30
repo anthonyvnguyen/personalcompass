@@ -15,17 +15,19 @@ export const sharedStyles = StyleSheet.create({
   // Header styles
   header: {
     paddingHorizontal: 24,
-    paddingTop: 24,
-    paddingBottom: 16,
+    paddingTop: 32,
+    paddingBottom: 24,
   },
   title: {
-    fontSize: 28,
-    fontWeight: 'bold',
+    fontSize: 32,
+    fontWeight: '700',
     marginBottom: 8,
+    letterSpacing: -0.5,
   },
   subtitle: {
     fontSize: 16,
-    opacity: 0.7,
+    opacity: 0.6,
+    fontWeight: '400',
   },
 
   // ScrollView and content
@@ -34,48 +36,58 @@ export const sharedStyles = StyleSheet.create({
     paddingHorizontal: 24,
   },
   content: {
-    paddingBottom: 32,
+    paddingBottom: 40,
   },
 
   // Section styles
   section: {
-    marginTop: 24,
+    marginTop: 32,
   },
   sectionTitle: {
-    fontSize: 18,
+    fontSize: 20,
     fontWeight: '600',
-    marginBottom: 12,
+    marginBottom: 16,
+    letterSpacing: -0.3,
   },
 
   // Button styles
   buttonText: {
-    fontWeight: '500',
+    fontWeight: '600',
+    fontSize: 16,
   },
   primaryButton: {
-    backgroundColor: '#007AFF',
+    backgroundColor: '#a855f7', // Light purple
+    borderRadius: 12,
+    minHeight: 52,
   },
   outlineButton: {
     backgroundColor: 'transparent',
     borderWidth: 1,
-    borderColor: '#d1d5db',
+    borderColor: '#333333',
+    borderRadius: 12,
+    minHeight: 52,
   },
   outlineButtonText: {
-    fontWeight: '500',
+    fontWeight: '600',
+    fontSize: 16,
   },
   destructiveButton: {
-    backgroundColor: '#dc2626',
+    backgroundColor: '#ef4444',
+    borderRadius: 12,
+    minHeight: 52,
   },
   destructiveButtonText: {
     color: '#ffffff',
-    fontWeight: '500',
+    fontWeight: '600',
+    fontSize: 16,
   },
 
   // Card styles
   cardSpacing: {
-    marginBottom: 16,
+    marginBottom: 20,
   },
   cardContentCentered: {
-    padding: 16,
+    padding: 24,
     alignItems: 'center',
   },
 
@@ -83,42 +95,48 @@ export const sharedStyles = StyleSheet.create({
   statusRow: {
     flexDirection: 'row',
     alignItems: 'center',
-    marginBottom: 8,
+    marginBottom: 12,
   },
   statusIcon: {
-    fontSize: 14,
-    marginRight: 8,
-    width: 20,
+    fontSize: 16,
+    marginRight: 12,
+    width: 24,
     textAlign: 'center',
   },
   statusText: {
-    fontSize: 14,
+    fontSize: 15,
     opacity: 0.7,
     flex: 1,
+    lineHeight: 20,
   },
 
   // List styles
   listContainer: {
-    gap: 12,
+    gap: 16,
+    marginBottom: 8,
   },
   listItem: {
-    padding: 16,
+    padding: 0,
   },
 
   // Text styles
   coordinateText: {
     fontFamily: 'monospace',
-    fontSize: 14,
+    fontSize: 15,
+    opacity: 0.8,
+    lineHeight: 22,
   },
   emptyStateText: {
     textAlign: 'center',
-    lineHeight: 20,
-    opacity: 0.7,
+    lineHeight: 24,
+    opacity: 0.6,
+    fontSize: 16,
   },
   debugText: {
-    fontSize: 12,
+    fontSize: 13,
     fontFamily: 'monospace',
-    opacity: 0.7,
+    opacity: 0.6,
+    lineHeight: 18,
   },
 
   // Spacing utilities
@@ -155,31 +173,31 @@ export const sharedStyles = StyleSheet.create({
 
   // Color-specific containers
   coordinateContainer: {
-    padding: 12,
-    borderRadius: 8,
-    marginBottom: 16,
+    padding: 16,
+    borderRadius: 12,
+    marginBottom: 20,
   },
   coordinateContainerLight: {
-    backgroundColor: '#f3f4f6',
+    backgroundColor: '#f8f9fa',
   },
   coordinateContainerDark: {
-    backgroundColor: '#374151',
+    backgroundColor: '#1a1a1a',
   },
   debugContainer: {
-    marginTop: 12,
-    padding: 12,
-    borderRadius: 6,
+    marginTop: 16,
+    padding: 16,
+    borderRadius: 10,
   },
   debugContainerLight: {
-    backgroundColor: '#f3f4f6',
+    backgroundColor: '#f8f9fa',
   },
   debugContainerDark: {
-    backgroundColor: '#374151',
+    backgroundColor: '#1a1a1a',
   },
   errorContainer: {
-    marginTop: 12,
-    padding: 12,
-    borderRadius: 6,
+    marginTop: 16,
+    padding: 16,
+    borderRadius: 10,
   },
   errorContainerLight: {
     backgroundColor: '#fef2f2',
@@ -188,17 +206,17 @@ export const sharedStyles = StyleSheet.create({
     backgroundColor: '#7f1d1d',
   },
   statusCard: {
-    padding: 16,
+    padding: 20,
   },
   statusCardLight: {
-    backgroundColor: '#f9fafb',
+    backgroundColor: '#fafafa',
   },
   statusCardDark: {
-    backgroundColor: '#1f2937',
+    backgroundColor: '#111111',
   },
 });
 
-// Helper function to combine styles based on theme
+// Helper functions for themed styles
 export const getThemedStyles = (
   isDark: boolean,
   lightStyle: any,
@@ -207,7 +225,6 @@ export const getThemedStyles = (
   return isDark ? darkStyle : lightStyle;
 };
 
-// Common style combinations
 export const getContainerStyle = (isDark: boolean) => [
   sharedStyles.container,
   isDark ? sharedStyles.containerDark : sharedStyles.containerLight,

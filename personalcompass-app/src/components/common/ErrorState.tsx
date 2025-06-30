@@ -49,8 +49,13 @@ export const ErrorState: React.FC<ErrorStateProps> = ({
             >
               {message}
             </Text>
-            <Button onPress={onRetry} style={styles.fullWidthButton}>
-              <Text>{buttonText}</Text>
+            <Button
+              onPress={onRetry}
+              style={[styles.fullWidthButton, sharedStyles.primaryButton]}
+            >
+              <Text style={[sharedStyles.buttonText, { color: '#ffffff' }]}>
+                {buttonText}
+              </Text>
             </Button>
           </CardContent>
         </Card>
@@ -65,7 +70,7 @@ const styles = StyleSheet.create({
     maxWidth: 400,
   },
   errorTitle: {
-    color: '#dc2626',
+    color: '#ef4444',
     textAlign: 'center',
   },
   fullWidthButton: {

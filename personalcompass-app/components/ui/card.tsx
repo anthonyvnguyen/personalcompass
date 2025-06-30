@@ -87,46 +87,38 @@ function CardFooter({ className, style, ...props }: CardFooterProps) {
 
 const styles = StyleSheet.create({
   card: {
-    borderRadius: 12,
+    borderRadius: 16,
     borderWidth: 1,
-    shadowOffset: {
-      width: 0,
-      height: 2,
-    },
-    shadowOpacity: 0.1,
-    shadowRadius: 3.84,
-    elevation: 5,
-    marginBottom: 16,
+    marginBottom: 20,
   },
   cardLight: {
     backgroundColor: '#ffffff',
-    borderColor: '#e5e5e5',
-    shadowColor: '#000000',
+    borderColor: '#f0f0f0',
   },
   cardDark: {
-    backgroundColor: '#1a1a1a',
-    borderColor: '#333333',
-    shadowColor: '#ffffff',
+    backgroundColor: '#0f0f0f',
+    borderColor: '#1a1a1a',
   },
   cardHeader: {
-    padding: 20,
-    paddingBottom: 12,
+    padding: 24,
+    paddingBottom: 16,
   },
   cardTitle: {
-    fontSize: 18,
+    fontSize: 20,
     fontWeight: '600',
-    lineHeight: 22,
+    lineHeight: 24,
     marginBottom: 4,
+    letterSpacing: -0.3,
   },
   cardTitleLight: {
-    color: '#1a1a1a',
+    color: '#000000',
   },
   cardTitleDark: {
     color: '#ffffff',
   },
   cardDescription: {
-    fontSize: 14,
-    lineHeight: 18,
+    fontSize: 15,
+    lineHeight: 20,
   },
   cardDescriptionLight: {
     color: '#666666',
@@ -135,13 +127,13 @@ const styles = StyleSheet.create({
     color: '#a1a1a1',
   },
   cardContent: {
-    padding: 20,
+    padding: 24,
     paddingTop: 0,
   },
   cardFooter: {
     flexDirection: 'row',
     alignItems: 'center',
-    padding: 20,
+    padding: 24,
     paddingTop: 0,
   },
 });

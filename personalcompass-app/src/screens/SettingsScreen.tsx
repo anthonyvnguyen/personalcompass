@@ -24,7 +24,7 @@ function SettingsScreen() {
     >
       {/* Header */}
       <View style={sharedStyles.header}>
-        <Text style={sharedStyles.title}>⚙️ Settings</Text>
+        <Text style={sharedStyles.title}>Settings</Text>
         <Text style={sharedStyles.subtitle}>
           App preferences and configuration
         </Text>
@@ -38,7 +38,7 @@ function SettingsScreen() {
           {/* Appearance Section */}
           <Card style={sharedStyles.cardSpacing}>
             <CardHeader>
-              <CardTitle>🎨 Appearance</CardTitle>
+              <CardTitle>Appearance</CardTitle>
               <CardDescription>
                 Theme, colors, and display options
               </CardDescription>
@@ -51,7 +51,7 @@ function SettingsScreen() {
           {/* Compass Section */}
           <Card style={sharedStyles.cardSpacing}>
             <CardHeader>
-              <CardTitle>🧭 Compass</CardTitle>
+              <CardTitle>Compass</CardTitle>
               <CardDescription>
                 Calibration, units, and accuracy settings
               </CardDescription>
@@ -66,7 +66,7 @@ function SettingsScreen() {
           {/* Location Section */}
           <Card style={sharedStyles.cardSpacing}>
             <CardHeader>
-              <CardTitle>📍 Location</CardTitle>
+              <CardTitle>Location</CardTitle>
               <CardDescription>
                 Permissions and location services
               </CardDescription>
@@ -81,7 +81,7 @@ function SettingsScreen() {
           {/* Data Section */}
           <Card style={sharedStyles.cardSpacing}>
             <CardHeader>
-              <CardTitle>💾 Data</CardTitle>
+              <CardTitle>Data</CardTitle>
               <CardDescription>
                 Manage saved locations and app data
               </CardDescription>
@@ -96,7 +96,7 @@ function SettingsScreen() {
           {/* About Section */}
           <Card style={sharedStyles.cardSpacing}>
             <CardHeader>
-              <CardTitle>ℹ️ About</CardTitle>
+              <CardTitle>About</CardTitle>
               <CardDescription>App version, help, and support</CardDescription>
             </CardHeader>
             <CardContent>
@@ -121,11 +121,9 @@ function SettingsScreen() {
           <StatusCard
             items={[
               {
-                icon: '🚧',
                 text: 'Most settings are coming in future updates',
               },
               {
-                icon: '🎯',
                 text: 'Currently focused on core compass functionality',
               },
             ]}
@@ -138,17 +136,18 @@ function SettingsScreen() {
 
 const styles = StyleSheet.create({
   comingSoonText: {
-    fontSize: 14,
+    fontSize: 15,
     opacity: 0.6,
     fontStyle: 'italic',
   },
   infoLabel: {
     fontSize: 16,
-    fontWeight: '500',
+    fontWeight: '600',
   },
   infoValue: {
     fontSize: 16,
     opacity: 0.7,
+    fontFamily: 'monospace',
   },
 });
 

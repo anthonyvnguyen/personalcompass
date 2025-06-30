@@ -19,19 +19,18 @@ export const QuickActions: React.FC<QuickActionsProps> = ({
       <View style={[sharedStyles.row, styles.buttonRow]}>
         <Button
           onPress={onAddCustomLocation}
-          style={[
-            sharedStyles.outlineButton,
-            sharedStyles.flex1,
-            styles.buttonSpacing,
-          ]}
+          variant='outline'
+          style={[sharedStyles.flex1, styles.buttonSpacing]}
         >
-          <Text style={sharedStyles.outlineButtonText}>+ Custom Location</Text>
+          <Text style={sharedStyles.outlineButtonText}>Add Location</Text>
         </Button>
         <Button
           onPress={onViewCompass}
           style={[sharedStyles.primaryButton, sharedStyles.flex1]}
         >
-          <Text style={sharedStyles.buttonText}>View Compass</Text>
+          <Text style={[sharedStyles.buttonText, { color: '#ffffff' }]}>
+            View Compass
+          </Text>
         </Button>
       </View>
     </View>
@@ -40,9 +39,9 @@ export const QuickActions: React.FC<QuickActionsProps> = ({
 
 const styles = StyleSheet.create({
   buttonRow: {
-    gap: 12,
+    gap: 16,
   },
   buttonSpacing: {
-    marginRight: 6,
+    marginRight: 8,
   },
 });

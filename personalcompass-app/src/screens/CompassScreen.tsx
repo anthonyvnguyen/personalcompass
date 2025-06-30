@@ -79,7 +79,7 @@ function CompassScreen() {
     >
       {/* Header */}
       <View style={sharedStyles.header}>
-        <Text style={sharedStyles.title}>🧭 Compass</Text>
+        <Text style={sharedStyles.title}>Compass</Text>
         <Text style={sharedStyles.subtitle}>
           Dynamic compass with location indicators
         </Text>
@@ -102,9 +102,13 @@ function CompassScreen() {
                   </Text>
                   <Button
                     onPress={handleStartCompass}
-                    style={styles.startButton}
+                    style={[styles.startButton, sharedStyles.primaryButton]}
                   >
-                    <Text>🧭 Start Compass</Text>
+                    <Text
+                      style={[sharedStyles.buttonText, { color: '#ffffff' }]}
+                    >
+                      Start Compass
+                    </Text>
                   </Button>
                 </View>
               </CardContent>
@@ -139,14 +143,20 @@ function CompassScreen() {
                       variant='outline'
                       style={styles.controlButton}
                     >
-                      <Text>🔄 Refresh</Text>
+                      <Text style={sharedStyles.outlineButtonText}>
+                        Refresh
+                      </Text>
                     </Button>
                     <Button
                       onPress={handleStopCompass}
                       variant='destructive'
                       style={styles.controlButton}
                     >
-                      <Text>⏹️ Stop Compass</Text>
+                      <Text
+                        style={[sharedStyles.buttonText, { color: '#ffffff' }]}
+                      >
+                        Stop Compass
+                      </Text>
                     </Button>
                   </View>
                 </CardContent>
@@ -157,7 +167,7 @@ function CompassScreen() {
           {/* Help Information */}
           <Card style={sharedStyles.section}>
             <CardHeader>
-              <CardTitle>💡 How to Use</CardTitle>
+              <CardTitle>How to Use</CardTitle>
             </CardHeader>
             <CardContent>
               <View style={styles.helpContainer}>
@@ -191,34 +201,36 @@ const styles = StyleSheet.create({
   },
   startTitle: {
     fontSize: 24,
-    fontWeight: 'bold',
+    fontWeight: '700',
     marginBottom: 12,
+    letterSpacing: -0.4,
   },
   startDescription: {
     fontSize: 16,
     textAlign: 'center',
-    marginBottom: 24,
-    opacity: 0.8,
+    marginBottom: 32,
+    opacity: 0.7,
     lineHeight: 22,
   },
   startButton: {
-    paddingHorizontal: 32,
-    paddingVertical: 12,
+    minWidth: 200,
   },
   controlsContainer: {
     flexDirection: 'row',
-    justifyContent: 'space-between',
-    gap: 12,
+    gap: 16,
+    justifyContent: 'center',
   },
   controlButton: {
     flex: 1,
+    maxWidth: 140,
   },
   helpContainer: {
-    gap: 8,
+    gap: 12,
   },
   helpText: {
-    fontSize: 14,
+    fontSize: 15,
     lineHeight: 20,
+    opacity: 0.8,
   },
 });
 

@@ -9,7 +9,6 @@ import { useColorScheme } from '../../lib/useColorScheme';
 import { sharedStyles, getContainerStyle } from '../styles/shared';
 import { LoadingState, ErrorState } from '../components/common';
 import {
-  CurrentLocationCard,
   QuickActions,
   SavedLocationsList,
   StatusInfo,
@@ -68,39 +67,6 @@ const MapScreen: React.FC<MapScreenProps> = ({ navigation }) => {
       setError(`Failed to get location: ${err}`);
     } finally {
       setIsLoading(false);
-    }
-  };
-
-  const addCurrentLocation = async () => {
-    if (!currentLocation) {
-      Alert.alert('Error', 'Current location not available');
-      return;
-    }
-
-    try {
-      const locationName = `Location ${savedLocations.length + 1}`;
-      const result = await saveLocation(
-        locationName,
-        currentLocation,
-        `Current location added on ${new Date().toLocaleDateString()}`
-      );
-
-      if (result) {
-        setDebugInfo(
-          `Added current location: ${currentLocation.latitude.toFixed(6)}, ${currentLocation.longitude.toFixed(6)}`
-        );
-
-        Alert.alert(
-          'Location Added',
-          `Added "${locationName}" to your compass locations.`,
-          [{ text: 'OK' }]
-        );
-      } else {
-        setError('Failed to save location');
-      }
-    } catch (err) {
-      console.error('Error adding location:', err);
-      setError(`Failed to add location: ${err}`);
     }
   };
 
@@ -252,19 +218,37 @@ const MapScreen: React.FC<MapScreenProps> = ({ navigation }) => {
     );
   };
 
-  const handleClearAll = () => {
+  const handleDeleteSelected = async (locationIds: string[]) => {
+    if (locationIds.length === 0) return;
+
+    const locationNames = savedLocations
+      .filter(location => locationIds.includes(location.id))
+      .map(location => location.name)
+      .join(', ');
+
     Alert.alert(
-      'Clear All Locations',
-      'Are you sure you want to remove all saved locations?',
+      'Delete Locations',
+      `Are you sure you want to delete ${locationIds.length} location${locationIds.length > 1 ? 's' : ''}?\n\n${locationNames}`,
       [
         { text: 'Cancel', style: 'cancel' },
         {
-          text: 'Clear All',
+          text: 'Delete',
           style: 'destructive',
           onPress: async () => {
-            const success = await clearAllLocations();
-            if (!success) {
-              setError('Failed to clear all locations');
+            try {
+              // Delete all selected locations
+              const promises = locationIds.map(id => deleteLocation(id));
+              const results = await Promise.all(promises);
+
+              // Check if any deletion failed
+              const failedCount = results.filter(result => !result).length;
+              if (failedCount > 0) {
+                setError(
+                  `Failed to delete ${failedCount} location${failedCount > 1 ? 's' : ''}`
+                );
+              }
+            } catch (err) {
+              setError('Failed to delete selected locations');
             }
           },
         },
@@ -299,7 +283,7 @@ const MapScreen: React.FC<MapScreenProps> = ({ navigation }) => {
       edges={['top', 'left', 'right']}
     >
       <View style={sharedStyles.header}>
-        <Text style={sharedStyles.title}>🗺️ Location Manager</Text>
+        <Text style={sharedStyles.title}>Location Manager</Text>
         <Text style={sharedStyles.subtitle}>
           Add locations to track with your compass
         </Text>
@@ -310,14 +294,6 @@ const MapScreen: React.FC<MapScreenProps> = ({ navigation }) => {
         showsVerticalScrollIndicator={false}
       >
         <View style={sharedStyles.content}>
-          {/* Current Location */}
-          {currentLocation && (
-            <CurrentLocationCard
-              currentLocation={currentLocation}
-              onAddCurrentLocation={addCurrentLocation}
-            />
-          )}
-
           {/* Quick Actions */}
           <QuickActions
             onAddCustomLocation={addCustomLocation}
@@ -328,7 +304,7 @@ const MapScreen: React.FC<MapScreenProps> = ({ navigation }) => {
           <SavedLocationsList
             savedLocations={savedLocations}
             onLocationPress={handleLocationPress}
-            onClearAll={handleClearAll}
+            onDeleteSelected={handleDeleteSelected}
           />
 
           {/* Status Info */}
