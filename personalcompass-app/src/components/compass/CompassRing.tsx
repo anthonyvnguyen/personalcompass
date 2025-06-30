@@ -1,6 +1,12 @@
 import React from 'react';
 import { View, StyleSheet } from 'react-native';
-import Svg, { Circle, Line, Text as SvgText, Polygon } from 'react-native-svg';
+import Svg, {
+  Circle,
+  Line,
+  Text as SvgText,
+  Polygon,
+  G,
+} from 'react-native-svg';
 import { LocationIndicator } from '../../types/compass';
 import { useColorScheme } from '../../../lib/useColorScheme';
 
@@ -26,7 +32,7 @@ export function CompassRing({ size, heading, indicators }: CompassRingProps) {
     const markings = [];
 
     for (let i = 0; i < 360; i += 30) {
-      const angle = (i - 90) * (Math.PI / 180); // -90 to start from north
+      const angle = (i - 90) * (Math.PI / 180); // -90 to put North at top
       const isCardinal = i % 90 === 0;
       const markRadius = isCardinal ? radius - 15 : radius - 10;
 
@@ -102,7 +108,7 @@ export function CompassRing({ size, heading, indicators }: CompassRingProps) {
         relativeBearing += 360;
       }
 
-      const angle = (relativeBearing - 90) * (Math.PI / 180); // -90 to start from north
+      const angle = (relativeBearing - 90) * (Math.PI / 180); // -90 to put North at top
       const indicatorRadius = radius - 5;
 
       const x = center + indicatorRadius * Math.cos(angle);
@@ -133,31 +139,49 @@ export function CompassRing({ size, heading, indicators }: CompassRingProps) {
   return (
     <View style={[styles.container, { width: size, height: size }]}>
       <Svg width={size} height={size}>
-        {/* Outer ring */}
-        <Circle
-          cx={center}
-          cy={center}
-          r={radius}
-          fill='none'
-          stroke={ringColor}
-          strokeWidth={2}
-        />
+        {/* Rotating compass ring - rotates to show current direction at top */}
+        <G transform={`rotate(${-heading} ${center} ${center})`}>
+          {/* Outer ring */}
+          <Circle
+            cx={center}
+            cy={center}
+            r={radius}
+            fill='none'
+            stroke={ringColor}
+            strokeWidth={2}
+          />
 
-        {/* Inner ring */}
-        <Circle
-          cx={center}
-          cy={center}
-          r={innerRadius}
-          fill='none'
-          stroke={ringColor}
-          strokeWidth={1}
-        />
+          {/* Inner ring */}
+          <Circle
+            cx={center}
+            cy={center}
+            r={innerRadius}
+            fill='none'
+            stroke={ringColor}
+            strokeWidth={1}
+          />
 
-        {/* Degree markings and labels */}
-        {generateMarkings()}
+          {/* Degree markings and labels */}
+          {generateMarkings()}
+        </G>
 
-        {/* Location indicators */}
+        {/* Location indicators - these stay fixed to geographic directions */}
         {generateIndicators()}
+
+        {/* Device heading indicator - always points to top of screen */}
+        <Line
+          x1={center}
+          y1={center}
+          x2={center}
+          y2={center - innerRadius + 15}
+          stroke={northColor}
+          strokeWidth={3}
+          strokeLinecap='round'
+        />
+        <Polygon
+          points={`${center},${center - innerRadius + 10} ${center - 4},${center - innerRadius + 20} ${center + 4},${center - innerRadius + 20}`}
+          fill={northColor}
+        />
 
         {/* Center dot */}
         <Circle cx={center} cy={center} r={4} fill={textColor} />

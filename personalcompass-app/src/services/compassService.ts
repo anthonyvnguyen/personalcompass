@@ -46,9 +46,9 @@ export class CompassService {
         return false;
       }
 
-      // Set update intervals (every 100ms for smooth updates)
-      Magnetometer.setUpdateInterval(100);
-      Accelerometer.setUpdateInterval(100);
+      // Set update intervals (every 50ms for responsive updates)
+      Magnetometer.setUpdateInterval(50);
+      Accelerometer.setUpdateInterval(50);
 
       // Subscribe to magnetometer updates
       this.magnetometerSubscription = Magnetometer.addListener(data => {
@@ -119,7 +119,7 @@ export class CompassService {
     );
     if (accMagnitude === 0) {
       // Fallback to simple calculation if accelerometer data is invalid
-      let heading = Math.atan2(mag.y, mag.x) * (180 / Math.PI);
+      let heading = Math.atan2(-mag.x, mag.y) * (180 / Math.PI);
       return this.smoothHeading((heading + 360) % 360);
     }
 
@@ -139,7 +139,8 @@ export class CompassService {
       mag.z * Math.sin(roll) * Math.cos(pitch);
 
     // Calculate heading from compensated magnetometer values
-    let heading = Math.atan2(-magYComp, magXComp) * (180 / Math.PI);
+    // Fixed: Use correct orientation and direction
+    let heading = Math.atan2(-magXComp, magYComp) * (180 / Math.PI);
 
     // Normalize to 0-360 degrees
     heading = (heading + 360) % 360;
@@ -165,7 +166,8 @@ export class CompassService {
     }
 
     // Apply simple low-pass filter (adjust alpha for more/less smoothing)
-    const alpha = 0.15;
+    // Reduced smoothing for better responsiveness like native compass
+    const alpha = 0.3;
     const smoothedDiff = diff * alpha;
     let smoothedHeading = this.currentHeading + smoothedDiff;
 
