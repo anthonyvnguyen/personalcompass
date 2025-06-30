@@ -1,7 +1,8 @@
-import React from 'react';
-import { View, ScrollView, StyleSheet } from 'react-native';
+import React, { useEffect, useState } from 'react';
+import { View, ScrollView, StyleSheet, Alert } from 'react-native';
 import { SafeAreaView } from 'react-native-safe-area-context';
 import { Text } from '../../components/ui/text';
+import { Button } from '../../components/ui/button';
 import {
   Card,
   CardContent,
@@ -10,10 +11,66 @@ import {
 } from '../../components/ui/card';
 import { useColorScheme } from '../../lib/useColorScheme';
 import { sharedStyles, getContainerStyle } from '../styles/shared';
-import { StatusCard, FeatureList } from '../components/common';
+import { LoadingState, ErrorState } from '../components/common';
+import { CompassDisplay, LocationIndicatorsList } from '../components/compass';
+import { useCompass } from '../hooks/useCompass';
 
 function CompassScreen() {
   const { isDarkColorScheme } = useColorScheme();
+  const {
+    heading,
+    indicators,
+    isCompassActive,
+    error,
+    accuracy,
+    startCompass,
+    stopCompass,
+    refreshIndicators,
+  } = useCompass();
+
+  const [isStarting, setIsStarting] = useState(false);
+
+  const handleStartCompass = async () => {
+    setIsStarting(true);
+    try {
+      await startCompass();
+    } catch (err) {
+      Alert.alert('Error', 'Failed to start compass. Please try again.');
+    } finally {
+      setIsStarting(false);
+    }
+  };
+
+  const handleStopCompass = () => {
+    stopCompass();
+  };
+
+  const handleRefreshIndicators = async () => {
+    try {
+      await refreshIndicators();
+    } catch (err) {
+      Alert.alert('Error', 'Failed to refresh location indicators.');
+    }
+  };
+
+  // Show loading state when starting compass
+  if (isStarting) {
+    return (
+      <LoadingState message='Starting compass and initializing sensors...' />
+    );
+  }
+
+  // Show error state if there's an error
+  if (error && !isCompassActive) {
+    return (
+      <ErrorState
+        title='Compass Error'
+        message={error}
+        buttonText='Try Again'
+        onRetry={handleStartCompass}
+      />
+    );
+  }
 
   return (
     <SafeAreaView
@@ -33,53 +90,94 @@ function CompassScreen() {
         showsVerticalScrollIndicator={false}
       >
         <View style={sharedStyles.content}>
-          {/* Compass Display */}
-          <Card style={sharedStyles.cardSpacing}>
-            <CardContent style={sharedStyles.cardContentCentered}>
-              <View
-                style={[
-                  styles.compassPlaceholder,
-                  isDarkColorScheme
-                    ? styles.compassPlaceholderDark
-                    : styles.compassPlaceholderLight,
-                ]}
-              >
-                <Text style={styles.compassIcon}>🧭</Text>
-                <Text style={styles.compassText}>Compass will be here</Text>
+          {!isCompassActive ? (
+            // Compass not started - show start button
+            <Card style={sharedStyles.cardSpacing}>
+              <CardContent style={sharedStyles.cardContentCentered}>
+                <View style={styles.startContainer}>
+                  <Text style={styles.startTitle}>Start Compass</Text>
+                  <Text style={styles.startDescription}>
+                    Tap the button below to activate the compass and see
+                    directions to your saved locations.
+                  </Text>
+                  <Button
+                    onPress={handleStartCompass}
+                    style={styles.startButton}
+                  >
+                    <Text>🧭 Start Compass</Text>
+                  </Button>
+                </View>
+              </CardContent>
+            </Card>
+          ) : (
+            // Compass is active - show compass display
+            <>
+              <Card style={sharedStyles.cardSpacing}>
+                <CardContent style={sharedStyles.cardContentCentered}>
+                  <CompassDisplay
+                    heading={heading}
+                    indicators={indicators}
+                    accuracy={accuracy}
+                    size={280}
+                  />
+                </CardContent>
+              </Card>
+
+              {/* Location Indicators List */}
+              <Card style={sharedStyles.section}>
+                <CardContent>
+                  <LocationIndicatorsList indicators={indicators} />
+                </CardContent>
+              </Card>
+
+              {/* Control Buttons */}
+              <Card style={sharedStyles.section}>
+                <CardContent>
+                  <View style={styles.controlsContainer}>
+                    <Button
+                      onPress={handleRefreshIndicators}
+                      variant='outline'
+                      style={styles.controlButton}
+                    >
+                      <Text>🔄 Refresh</Text>
+                    </Button>
+                    <Button
+                      onPress={handleStopCompass}
+                      variant='destructive'
+                      style={styles.controlButton}
+                    >
+                      <Text>⏹️ Stop Compass</Text>
+                    </Button>
+                  </View>
+                </CardContent>
+              </Card>
+            </>
+          )}
+
+          {/* Help Information */}
+          <Card style={sharedStyles.section}>
+            <CardHeader>
+              <CardTitle>💡 How to Use</CardTitle>
+            </CardHeader>
+            <CardContent>
+              <View style={styles.helpContainer}>
+                <Text style={styles.helpText}>
+                  • The compass shows your current heading and directions to
+                  saved locations
+                </Text>
+                <Text style={styles.helpText}>
+                  • Each saved location appears as a colored indicator on the
+                  compass ring
+                </Text>
+                <Text style={styles.helpText}>
+                  • Location indicators show distance and cardinal direction
+                </Text>
+                <Text style={styles.helpText}>
+                  • Add more locations from the Map screen to see them here
+                </Text>
               </View>
             </CardContent>
           </Card>
-
-          {/* Features Info */}
-          <Card style={sharedStyles.section}>
-            <CardHeader>
-              <CardTitle>✨ Features</CardTitle>
-            </CardHeader>
-            <CardContent>
-              <FeatureList
-                features={[
-                  { icon: '📍', text: 'Real-time compass heading' },
-                  {
-                    icon: '🎯',
-                    text: 'Direction indicators to saved locations',
-                  },
-                  { icon: '📏', text: 'Distance information' },
-                  { icon: '✨', text: 'Smooth animations' },
-                ]}
-              />
-            </CardContent>
-          </Card>
-
-          {/* Status Info */}
-          <StatusCard
-            items={[
-              { icon: '⚠️', text: 'Compass implementation coming soon' },
-              {
-                icon: '🗺️',
-                text: 'Add locations from the Map screen to see them here',
-              },
-            ]}
-          />
         </View>
       </ScrollView>
     </SafeAreaView>
@@ -87,29 +185,40 @@ function CompassScreen() {
 }
 
 const styles = StyleSheet.create({
-  compassPlaceholder: {
-    width: 250,
-    height: 250,
-    borderRadius: 125,
+  startContainer: {
     alignItems: 'center',
-    justifyContent: 'center',
-    borderWidth: 2,
+    paddingVertical: 40,
   },
-  compassPlaceholderLight: {
-    backgroundColor: '#ffffff',
-    borderColor: '#007AFF',
+  startTitle: {
+    fontSize: 24,
+    fontWeight: 'bold',
+    marginBottom: 12,
   },
-  compassPlaceholderDark: {
-    backgroundColor: '#1a1a1a',
-    borderColor: '#007AFF',
-  },
-  compassIcon: {
-    fontSize: 64,
-    marginBottom: 10,
-  },
-  compassText: {
+  startDescription: {
     fontSize: 16,
-    fontWeight: '500',
+    textAlign: 'center',
+    marginBottom: 24,
+    opacity: 0.8,
+    lineHeight: 22,
+  },
+  startButton: {
+    paddingHorizontal: 32,
+    paddingVertical: 12,
+  },
+  controlsContainer: {
+    flexDirection: 'row',
+    justifyContent: 'space-between',
+    gap: 12,
+  },
+  controlButton: {
+    flex: 1,
+  },
+  helpContainer: {
+    gap: 8,
+  },
+  helpText: {
+    fontSize: 14,
+    lineHeight: 20,
   },
 });
 
