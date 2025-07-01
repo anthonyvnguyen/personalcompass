@@ -4,13 +4,24 @@ import { View, StyleSheet } from 'react-native';
 import { Button } from '~/components/ui/button';
 import { Text } from '~/components/ui/text';
 import { useColorScheme } from '~/lib/useColorScheme';
+import { sharedStyles, getOutlineButtonTextStyle } from '../src/styles/shared';
+import { colors, spacing, typography } from '../src/styles/tokens';
 
 export function ThemeToggle() {
   const { isDarkColorScheme, toggleColorScheme } = useColorScheme();
 
   return (
-    <View style={styles.container}>
-      <Text style={styles.label}>
+    <View style={sharedStyles.rowSpaceBetween}>
+      <Text
+        style={[
+          styles.label,
+          {
+            color: isDarkColorScheme
+              ? colors.text.primary.dark
+              : colors.text.primary.light,
+          },
+        ]}
+      >
         Theme: {isDarkColorScheme ? 'Dark' : 'Light'}
       </Text>
       <Button
@@ -19,7 +30,7 @@ export function ThemeToggle() {
         onPress={toggleColorScheme}
         style={styles.button}
       >
-        <Text style={styles.buttonText}>
+        <Text style={getOutlineButtonTextStyle(isDarkColorScheme)}>
           {isDarkColorScheme ? '☀️ Light' : '🌙 Dark'}
         </Text>
       </Button>
@@ -28,27 +39,14 @@ export function ThemeToggle() {
 }
 
 const styles = StyleSheet.create({
-  container: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    justifyContent: 'space-between',
-  },
   label: {
-    fontSize: 16,
-    fontWeight: '500',
-    color: '#333',
+    fontSize: typography.fontSize.xl,
+    fontWeight: typography.fontWeight.medium,
+    letterSpacing: typography.letterSpacing.normal,
   },
   button: {
-    marginLeft: 16,
-    paddingHorizontal: 16,
-    paddingVertical: 8,
-    borderRadius: 6,
-    borderWidth: 1,
-    borderColor: '#ccc',
-    backgroundColor: '#fff',
-  },
-  buttonText: {
-    fontSize: 14,
-    color: '#333',
+    paddingHorizontal: spacing[4],
+    paddingVertical: spacing[2],
+    minWidth: spacing[20],
   },
 });

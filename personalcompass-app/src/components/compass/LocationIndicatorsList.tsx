@@ -2,6 +2,15 @@ import React from 'react';
 import { View, StyleSheet } from 'react-native';
 import { Text } from '../../../components/ui/text';
 import { LocationIndicator } from '../../types/compass';
+import { useColorScheme } from '../../../lib/useColorScheme';
+import { sharedStyles, getTextColor } from '../../styles/shared';
+import {
+  colors,
+  spacing,
+  typography,
+  borderRadius,
+  opacity,
+} from '../../styles/tokens';
 
 interface LocationIndicatorsListProps {
   indicators: LocationIndicator[];
@@ -10,6 +19,8 @@ interface LocationIndicatorsListProps {
 export function LocationIndicatorsList({
   indicators,
 }: LocationIndicatorsListProps) {
+  const { isDarkColorScheme } = useColorScheme();
+
   const formatDistance = (distance: number): string => {
     if (distance < 1000) {
       return `${distance}m`;
@@ -32,9 +43,22 @@ export function LocationIndicatorsList({
 
   if (indicators.length === 0) {
     return (
-      <View style={styles.emptyContainer}>
-        <Text style={styles.emptyText}>No saved locations</Text>
-        <Text style={styles.emptySubtext}>
+      <View style={sharedStyles.center}>
+        <Text
+          size='xl'
+          weight='medium'
+          style={[
+            sharedStyles.emptyStateText,
+            { color: getTextColor('primary', isDarkColorScheme) },
+          ]}
+        >
+          No saved locations
+        </Text>
+        <Text
+          size='lg'
+          variant='secondary'
+          style={[sharedStyles.emptyStateText, { marginTop: spacing[2] }]}
+        >
           Add locations from the Map screen to see them here
         </Text>
       </View>
@@ -43,103 +67,108 @@ export function LocationIndicatorsList({
 
   return (
     <View style={styles.container}>
-      <Text style={styles.title}>Location Indicators</Text>
-      {indicators.map((indicator, index) => (
-        <View key={indicator.id} style={styles.indicatorItem}>
-          <View style={styles.indicatorRow}>
-            <View style={styles.indicatorLeft}>
-              <View
-                style={[styles.colorDot, { backgroundColor: indicator.color }]}
-              />
-              <View style={styles.indicatorInfo}>
-                <Text style={styles.locationName} numberOfLines={1}>
-                  {indicator.name}
-                </Text>
-                <Text style={styles.locationDetails}>
-                  {formatDistance(indicator.distance)} •{' '}
-                  {getCardinalDirection(indicator.bearing)}
+      <Text
+        size='2xl'
+        weight='semibold'
+        style={[
+          sharedStyles.sectionTitle,
+          { color: getTextColor('primary', isDarkColorScheme) },
+        ]}
+      >
+        Location Indicators
+      </Text>
+      <View style={sharedStyles.listContainer}>
+        {indicators.map((indicator, index) => (
+          <View
+            key={indicator.id}
+            style={[
+              styles.indicatorItem,
+              isDarkColorScheme
+                ? styles.indicatorItemDark
+                : styles.indicatorItemLight,
+            ]}
+          >
+            <View style={sharedStyles.rowSpaceBetween}>
+              <View style={sharedStyles.rowCenter}>
+                <View
+                  style={[
+                    styles.colorDot,
+                    { backgroundColor: indicator.color },
+                  ]}
+                />
+                <View style={styles.indicatorInfo}>
+                  <Text
+                    size='xl'
+                    weight='medium'
+                    style={[
+                      styles.locationName,
+                      { color: getTextColor('primary', isDarkColorScheme) },
+                    ]}
+                    numberOfLines={1}
+                  >
+                    {indicator.name}
+                  </Text>
+                  <Text
+                    size='lg'
+                    variant='secondary'
+                    style={styles.locationDetails}
+                  >
+                    {formatDistance(indicator.distance)} •{' '}
+                    {getCardinalDirection(indicator.bearing)}
+                  </Text>
+                </View>
+              </View>
+              <View style={sharedStyles.alignCenter}>
+                <Text
+                  size='xl'
+                  weight='medium'
+                  style={[
+                    sharedStyles.coordinateText,
+                    { color: getTextColor('primary', isDarkColorScheme) },
+                  ]}
+                >
+                  {formatBearing(indicator.bearing)}
                 </Text>
               </View>
             </View>
-            <View style={styles.indicatorRight}>
-              <Text style={styles.bearingText}>
-                {formatBearing(indicator.bearing)}
-              </Text>
-            </View>
           </View>
-        </View>
-      ))}
+        ))}
+      </View>
     </View>
   );
 }
 
 const styles = StyleSheet.create({
   container: {
-    marginTop: 20,
-  },
-  title: {
-    fontSize: 18,
-    fontWeight: '600',
-    marginBottom: 12,
+    marginTop: spacing[5],
   },
   indicatorItem: {
-    marginBottom: 12,
-    paddingHorizontal: 16,
-    paddingVertical: 12,
-    backgroundColor: 'rgba(255, 255, 255, 0.05)',
-    borderRadius: 12,
+    padding: spacing[4],
+    borderRadius: borderRadius.xl,
     borderWidth: 1,
-    borderColor: 'rgba(255, 255, 255, 0.1)',
   },
-  indicatorRow: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    alignItems: 'center',
+  indicatorItemLight: {
+    backgroundColor: colors.neutral[50],
+    borderColor: colors.neutral[200],
   },
-  indicatorLeft: {
-    flexDirection: 'row',
-    alignItems: 'center',
-    flex: 1,
+  indicatorItemDark: {
+    backgroundColor: colors.neutral[800],
+    borderColor: colors.neutral[700],
   },
   colorDot: {
-    width: 12,
-    height: 12,
-    borderRadius: 6,
-    marginRight: 12,
+    width: spacing[3],
+    height: spacing[3],
+    borderRadius: spacing[2],
+    marginRight: spacing[3],
   },
   indicatorInfo: {
     flex: 1,
   },
   locationName: {
-    fontSize: 16,
-    fontWeight: '500',
-    marginBottom: 2,
+    marginBottom: spacing[1],
+    letterSpacing: typography.letterSpacing.normal,
   },
   locationDetails: {
-    fontSize: 14,
-    opacity: 0.7,
-  },
-  indicatorRight: {
-    alignItems: 'flex-end',
-  },
-  bearingText: {
-    fontSize: 16,
-    fontWeight: '500',
-    fontFamily: 'monospace',
-  },
-  emptyContainer: {
-    marginTop: 20,
-    alignItems: 'center',
-    paddingVertical: 32,
-  },
-  emptyText: {
-    fontSize: 16,
-    fontWeight: '500',
-    marginBottom: 8,
-  },
-  emptySubtext: {
-    fontSize: 14,
-    opacity: 0.7,
-    textAlign: 'center',
+    lineHeight: typography.lineHeight.snug,
   },
 });

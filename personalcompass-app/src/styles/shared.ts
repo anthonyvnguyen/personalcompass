@@ -108,6 +108,21 @@ export const sharedStyles = StyleSheet.create({
     fontWeight: typography.fontWeight.semibold,
     fontSize: typography.fontSize.lg,
   },
+  primaryButtonText: {
+    color: colors.neutral[0],
+    fontWeight: typography.fontWeight.semibold,
+    fontSize: typography.fontSize.lg,
+  },
+  outlineButtonText: {
+    fontWeight: typography.fontWeight.semibold,
+    fontSize: typography.fontSize.lg,
+  },
+  outlineButtonTextLight: {
+    color: colors.text.primary.light,
+  },
+  outlineButtonTextDark: {
+    color: colors.text.primary.dark,
+  },
 
   // Button variants
   primaryButton: {
@@ -316,6 +331,13 @@ export const getErrorContainerStyle = (isDark: boolean) => [
 export const getOutlineButtonStyle = (isDark: boolean) => [
   sharedStyles.outlineButton,
   isDark ? sharedStyles.outlineButtonDark : sharedStyles.outlineButtonLight,
+];
+
+export const getOutlineButtonTextStyle = (isDark: boolean) => [
+  sharedStyles.outlineButtonText,
+  isDark
+    ? sharedStyles.outlineButtonTextDark
+    : sharedStyles.outlineButtonTextLight,
 ];
 
 // ============================================================================

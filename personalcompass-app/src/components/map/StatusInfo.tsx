@@ -7,6 +7,7 @@ import {
   getDebugContainerStyle,
   getErrorContainerStyle,
 } from '../../styles/shared';
+import { colors } from '../../styles/tokens';
 import { StatusCard } from '../common/StatusCard';
 
 interface StatusInfoProps {
@@ -32,7 +33,7 @@ export const StatusInfo: React.FC<StatusInfoProps> = ({ debugInfo, error }) => {
       )}
       {error && (
         <View style={getErrorContainerStyle(isDarkColorScheme)}>
-          <Text style={[sharedStyles.debugText, { color: '#ef4444' }]}>
+          <Text style={[sharedStyles.debugText, { color: colors.error[500] }]}>
             {error}
           </Text>
         </View>

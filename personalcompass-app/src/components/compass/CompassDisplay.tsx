@@ -4,7 +4,8 @@ import { Text } from '../../../components/ui/text';
 import { CompassRing } from './CompassRing';
 import { LocationIndicator } from '../../types/compass';
 import { useColorScheme } from '../../../lib/useColorScheme';
-import { colors } from '../../styles/tokens';
+import { sharedStyles, getTextColor } from '../../styles/shared';
+import { colors, spacing, typography, opacity } from '../../styles/tokens';
 
 interface CompassDisplayProps {
   heading: number;
@@ -75,14 +76,21 @@ export function CompassDisplay({
   };
 
   return (
-    <View style={styles.container}>
+    <View style={sharedStyles.center}>
       {/* Compass Ring */}
       <View style={styles.compassContainer}>
         <CompassRing size={size} heading={heading} locations={indicators} />
 
         {/* Cardinal Direction Overlay - shows current facing direction */}
         <View style={styles.headingOverlay}>
-          <Text style={styles.cardinalDirection}>
+          <Text
+            size='3xl'
+            weight='bold'
+            style={[
+              styles.cardinalDirection,
+              { color: getTextColor('primary', isDarkColorScheme) },
+            ]}
+          >
             {getCardinalDirection(heading)}
           </Text>
         </View>
@@ -90,39 +98,98 @@ export function CompassDisplay({
 
       {/* Compass Info */}
       <View style={styles.infoContainer}>
-        <View style={styles.infoRow}>
-          <View style={styles.infoItem}>
-            <Text style={styles.infoLabel}>Heading</Text>
-            <Text style={styles.infoValue}>
+        <View style={sharedStyles.rowSpaceBetween}>
+          <View style={sharedStyles.alignCenter}>
+            <Text
+              size='sm'
+              weight='medium'
+              style={[
+                styles.infoLabel,
+                { color: getTextColor('secondary', isDarkColorScheme) },
+              ]}
+            >
+              HEADING
+            </Text>
+            <Text
+              size='lg'
+              weight='medium'
+              style={[
+                sharedStyles.coordinateText,
+                { color: getTextColor('primary', isDarkColorScheme) },
+              ]}
+            >
               {formatHeading(heading)} {getCardinalDirection(heading)}
             </Text>
           </View>
 
-          <View style={styles.infoItem}>
-            <Text style={styles.infoLabel}>Accuracy</Text>
-            <View style={styles.accuracyContainer}>
+          <View style={sharedStyles.alignCenter}>
+            <Text
+              size='sm'
+              weight='medium'
+              style={[
+                styles.infoLabel,
+                { color: getTextColor('secondary', isDarkColorScheme) },
+              ]}
+            >
+              ACCURACY
+            </Text>
+            <View style={sharedStyles.rowCenter}>
               <View
                 style={[
                   styles.accuracyDot,
                   { backgroundColor: getAccuracyColor(accuracy) },
                 ]}
               />
-              <Text style={styles.infoValue}>{getAccuracyText(accuracy)}</Text>
+              <Text
+                size='lg'
+                weight='medium'
+                style={{ color: getTextColor('primary', isDarkColorScheme) }}
+              >
+                {getAccuracyText(accuracy)}
+              </Text>
             </View>
           </View>
         </View>
 
-        <View style={styles.infoRow}>
-          <View style={styles.infoItem}>
-            <Text style={styles.infoLabel}>Locations</Text>
-            <Text style={styles.infoValue}>
+        <View style={[sharedStyles.rowSpaceBetween, { marginTop: spacing[4] }]}>
+          <View style={sharedStyles.alignCenter}>
+            <Text
+              size='sm'
+              weight='medium'
+              style={[
+                styles.infoLabel,
+                { color: getTextColor('secondary', isDarkColorScheme) },
+              ]}
+            >
+              LOCATIONS
+            </Text>
+            <Text
+              size='lg'
+              weight='medium'
+              style={{ color: getTextColor('primary', isDarkColorScheme) }}
+            >
               {indicators.length} indicator{indicators.length !== 1 ? 's' : ''}
             </Text>
           </View>
 
-          <View style={styles.infoItem}>
-            <Text style={styles.infoLabel}>Status</Text>
-            <Text style={styles.infoValue}>Active</Text>
+          <View style={sharedStyles.alignCenter}>
+            <Text
+              size='sm'
+              weight='medium'
+              style={[
+                styles.infoLabel,
+                { color: getTextColor('secondary', isDarkColorScheme) },
+              ]}
+            >
+              STATUS
+            </Text>
+            <Text
+              size='lg'
+              weight='medium'
+              style={{ color: colors.success[500] }}
+            >
+              Active
+            </Text>
           </View>
         </View>
       </View>
@@ -131,11 +198,6 @@ export function CompassDisplay({
 }
 
 const styles = StyleSheet.create({
-  container: {
-    alignItems: 'center',
-    justifyContent: 'center',
-    width: '100%',
-  },
   compassContainer: {
     position: 'relative',
     alignItems: 'center',
@@ -149,44 +211,22 @@ const styles = StyleSheet.create({
     top: '60%', // Position below center to avoid red arrow
   },
   cardinalDirection: {
-    fontSize: 24,
-    fontWeight: 'bold',
-    opacity: 0.9,
+    opacity: opacity.visible,
   },
   infoContainer: {
-    marginTop: 24,
-    paddingHorizontal: 20,
+    marginTop: spacing[6],
+    paddingHorizontal: spacing[5],
     width: '100%',
   },
-  infoRow: {
-    flexDirection: 'row',
-    justifyContent: 'space-between',
-    marginBottom: 16,
-  },
-  infoItem: {
-    flex: 1,
-    alignItems: 'center',
-  },
   infoLabel: {
-    fontSize: 12,
-    fontWeight: '500',
-    opacity: 0.6,
-    marginBottom: 4,
+    marginBottom: spacing[1],
     textTransform: 'uppercase',
-    letterSpacing: 0.5,
-  },
-  infoValue: {
-    fontSize: 14,
-    fontWeight: '500',
-  },
-  accuracyContainer: {
-    flexDirection: 'row',
-    alignItems: 'center',
+    letterSpacing: typography.letterSpacing.wide,
   },
   accuracyDot: {
-    width: 8,
-    height: 8,
-    borderRadius: 4,
-    marginRight: 6,
+    width: spacing[2],
+    height: spacing[2],
+    borderRadius: spacing[1],
+    marginRight: spacing[2],
   },
 });

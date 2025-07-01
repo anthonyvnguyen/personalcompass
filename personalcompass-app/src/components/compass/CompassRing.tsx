@@ -9,7 +9,7 @@ import Svg, {
 } from 'react-native-svg';
 import { LocationIndicator } from '../../types/compass';
 import { useColorScheme } from '../../../lib/useColorScheme';
-import { colors } from '../../styles/tokens';
+import { colors, opacity } from '../../styles/tokens';
 
 interface CompassRingProps {
   size: number;
@@ -152,7 +152,7 @@ export const CompassRing: React.FC<CompassRingProps> = ({
             y2={y}
             stroke={location.color}
             strokeWidth={2}
-            opacity={0.6}
+            opacity={opacity.muted}
           />
           {/* Location indicator circle */}
           <Circle cx={x} cy={y} r={6} fill={location.color} />

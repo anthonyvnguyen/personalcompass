@@ -39,7 +39,13 @@ Syntax and Formatting
 - Use declarative JSX.
 - Use Prettier for consistent code formatting.
 
-UI and Styling
+Design System and Styling
+- ALWAYS use the established design system located in src/styles/
+- Import design tokens from src/styles/tokens.ts for colors, spacing, typography, borderRadius, etc.
+- Import shared styles and helpers from src/styles/shared.ts for consistent component styling
+- NEVER use hardcoded values for colors, spacing, fonts, or opacity - always use design tokens
+- Use design system helper functions for theming: getContainerStyle(), getTextColor(), getOutlineButtonTextStyle(), etc.
+- Follow established patterns for light/dark mode theming using useColorScheme hook
 - Use React Native Reusables' built-in components as the primary UI library.
 - Apply styling using Tailwind CSS utility classes via the className prop on React Native Reusables components.
 - Leverage React Native Reusables' native dark mode support and ensure all components adapt to dark themes by default.
@@ -49,6 +55,18 @@ UI and Styling
 - Implement responsive design with Flexbox and Expo's useWindowDimensions for screen size adjustments.
 - Ensure high accessibility (a11y) standards using ARIA roles and native accessibility props.
 - Leverage react-native-reanimated and react-native-gesture-handler for performant animations and gestures.
+
+Design System Guidelines
+- Use colors from colors object in tokens.ts (e.g., colors.primary[500], colors.neutral[800])
+- Use spacing from spacing object (e.g., spacing[4], spacing[8]) instead of hardcoded pixels
+- Use typography tokens for fontSize, fontWeight, lineHeight, letterSpacing
+- Use borderRadius tokens for consistent corner radii
+- Use opacity tokens (opacity.muted, opacity.visible, etc.) instead of hardcoded values
+- Use componentSizes for consistent button, input, and card dimensions
+- Import and use sharedStyles for common layouts (sharedStyles.center, sharedStyles.rowSpaceBetween, etc.)
+- Use theme helper functions for consistent color application across light/dark modes
+- Always use getContainerStyle(isDark) for screen containers
+- Use shared button text styles (sharedStyles.primaryButtonText, getOutlineButtonTextStyle())
 
 Safe Area Management
 - Use SafeAreaProvider from react-native-safe-area-context to manage safe areas globally in your app.
@@ -86,8 +104,8 @@ Device Sensors
 - Use expo-sensors Magnetometer for accessing the device compass heading.
 - Smooth compass heading updates using subscriptions.
 - Normalize all angles to between 0 and 360 degrees.
-- Use expo-location to retrieve user’s current latitude and longitude.
-- Always request permissions for location and compass on component mount using Expo’s recommended practices.
+- Use expo-location to retrieve user's current latitude and longitude.
+- Always request permissions for location and compass on component mount using Expo's recommended practices.
 
 Maps
 - Use react-native-maps to display interactive maps and allow users to drop pins.
@@ -129,6 +147,21 @@ Key Conventions
 5. Implement expo-updates for over-the-air (OTA) updates.
 6. Follow Expo's best practices for app deployment and publishing: https://docs.expo.dev/distribution/introduction/
 7. Ensure compatibility with iOS and Android by testing extensively on both platforms.
+
+Design System Best Practices
+1. NEVER hardcode colors - always use colors from tokens.ts
+2. NEVER hardcode spacing - always use spacing tokens
+3. NEVER hardcode typography values - use typography tokens
+4. Always import useColorScheme for theme-aware components
+5. Use established helper functions for consistent theming
+6. Follow the pattern: import tokens, import shared styles, use helper functions
+7. Maintain consistency with existing component patterns
+8. Example imports for any new component:
+   ```typescript
+   import { useColorScheme } from '../lib/useColorScheme';
+   import { sharedStyles, getContainerStyle, getTextColor } from '../styles/shared';
+   import { colors, spacing, typography, opacity } from '../styles/tokens';
+   ```
 
 API Documentation
 - Use React Native Reusables documentation as the primary reference for component usage: https://www.reactnativereusables.com/getting-started/introduction/
